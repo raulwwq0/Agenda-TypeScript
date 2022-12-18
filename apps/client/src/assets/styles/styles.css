@@ -1,0 +1,183 @@
+:root {
+    --color-1: #ccc;
+    --color-2: #eee;
+}
+
+::placeholder {
+    color: #aaa;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-1);
+    display: grid;
+    font-family: Arial, Helvetica, sans-serif;
+    grid-template-columns: 70vw 30vw;
+    position: relative;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.button {
+    background-color: black;
+    border-radius: 0.5rem;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+main {
+    background-color: var(--color-1);
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto 1fr;
+    height: fit-content;
+    padding: 1rem;
+    width: 100%;
+}
+
+main .card {
+    background-color: var(--color-2);
+    border-radius: 1rem;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-areas: 
+        "img name"
+        "img surname"
+        "img age"
+        "img phones";
+    grid-template-columns: 1fr 2fr;
+    height: fit-content;
+    padding: 1rem;
+    position: relative;
+    transition: all 0.1s ease-in-out;
+    width: 100%;
+}
+
+main .card:hover {
+    box-shadow: 0 0 0.5rem 0.5rem #aaa;
+    transform: scale(1.02);
+}
+
+main .card img {
+    grid-area: img;
+    height: 150px;
+    width: 150px;
+}
+
+main .card .name {
+    grid-area: name;
+}
+
+main .card .surname {
+    grid-area: surname;
+}
+
+main .card .age {
+    grid-area: age;
+}
+
+main .card .phones {
+    grid-area: phones;
+}
+
+main .card .phones ul {
+    list-style: square;
+    margin-left: 1rem;
+}
+
+main .card .buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: space-between;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+}
+
+main .card .buttons .edit-button {
+    background-color: orange;
+}
+
+main .card .buttons .delete-button {
+    background-color: red;
+}
+
+aside {
+    background-color: var(--color-2);
+    display: flex;
+    flex-flow: column wrap;
+    height: 100vh;
+    justify-content: center;
+    position: sticky;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+
+aside form {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+aside form input {
+    border: none;
+    border-radius: 0.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+}
+
+aside form input:focus {
+    caret-color: var(--color-1);
+    outline: 2px solid var(--color-1);
+}
+
+aside form input[type="file"]:focus {
+    outline: none;
+}
+
+aside form .image-input-wrapper {
+    align-items: center;
+    background-color: white;
+    border-radius: 0.5rem;
+    color: #bbb;
+    display: flex;
+    flex-flow: row wrap;
+    font-size: 1.2rem;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+}
+
+aside form .insert-button {
+    background-color: green;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+aside form .update-buttons-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+aside form .update-buttons-wrapper .update-button {
+    background-color: orange;
+    width: 100%;
+}
+
+aside form .update-buttons-wrapper .cancel-button {
+    background-color: red;
+}

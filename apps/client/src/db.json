@@ -1,0 +1,47 @@
+{
+  "people": [
+    {
+      "id": "cddaef49-9293-4340-9c97-fef721b9b8c5",
+      "img": "https://pbs.twimg.com/profile_images/1598007854513913875/MtkiIW4S_400x400.jpg",
+      "name": "Raul",
+      "surname": "Aguilar",
+      "age": 20,
+      "birthdate": "04/04/2002",
+      "phones": [
+        "600600600"
+      ]
+    },
+    {
+      "id": "56cf4048-f981-4ac0-95a9-652e8ce530ab",
+      "img": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
+      "name": "Ivan",
+      "surname": "Aguilar",
+      "age": 17,
+      "birthdate": "28/12/2004",
+      "phones": [
+        "500500500"
+      ]
+    },
+    {
+      "id": "64e2f303-2ad4-4a28-b66a-37f78251b7f2",
+      "img": "https://www.w3schools.com/w3images/avatar2.png",
+      "name": "John",
+      "surname": "Doe",
+      "age": 27,
+      "birthdate": "01/12/1995",
+      "phones": [
+        "123456789",
+        "987654321"
+      ]
+    },
+    {
+      "id": "29128d65-e85a-4f0a-88a6-86a14a49c1d1",
+      "img": "https://www.w3schools.com/howto/img_avatar.png",
+      "name": "James",
+      "surname": "Smith",
+      "age": 62,
+      "birthdate": "19/04/1960",
+      "phones": []
+    }
+  ]
+}

@@ -21,7 +21,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.put("/", (req, res) => {
+router.put(["/", "/:id"], (req, res) => {
     contactController.update(req.body).then((contact) => {
         res.send(contact);
     });

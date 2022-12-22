@@ -1,7 +1,7 @@
 import { IPerson } from "../interfaces/person.interface";
 
 export class HttpService {
-    private API: string = "http://localhost:3000/people";
+    private API: string = import.meta.env.VITE_API_URL as string;
 
     constructor() {}
 

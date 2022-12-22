@@ -1,6 +1,6 @@
-import ContactSchema from "../schemas/contact";
+import ContactSchema from "../schemas/contact.schema";
 import { model } from "mongoose";
 
-const Contact = model("Contact", ContactSchema);
+const Contact = model("Contact", ContactSchema, "contacts");
 
 export default Contact;

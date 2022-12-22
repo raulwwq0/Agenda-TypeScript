@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
-import contactRouter from './routes/contact';
+import contactRouter from './routes/contact.routes';
 import Connection from './connection';
 
 dotenv.config();

@@ -21,4 +21,10 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+router.put("/", (req, res) => {
+    contactController.update(req.body).then((contact) => {
+        res.send(contact);
+    });
+});
+
 export default router;

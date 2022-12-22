@@ -16,6 +16,12 @@ class ContactController {
     async delete(id: string): Promise<void> {
         await Contact.findOneAndDelete({ id });
     }
+
+    async update(contact: IContact): Promise<IContact> {
+        const updatedContact = await Contact.findOneAndUpdate({ id: contact.id }, contact);
+        return updatedContact!;
+    }
+
 }
 
 export default new ContactController();

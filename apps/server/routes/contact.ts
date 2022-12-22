@@ -16,4 +16,10 @@ router.post("/", (req, res) => {
     });
 });
 
+router.delete("/:id", (req, res) => {
+    contactController.delete(req.params.id).then(() => {
+        res.send();
+    });
+});
+
 export default router;

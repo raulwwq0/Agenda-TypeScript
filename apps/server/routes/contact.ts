@@ -5,7 +5,6 @@ const router = Router();
 
 router.get("/", (_, res) => {
     contactController.findAll().then((contacts) => {
-        console.log(contacts);
         res.send(contacts);
     });
 });

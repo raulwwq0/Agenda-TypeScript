@@ -121,12 +121,6 @@ export class FormsService {
         return age;
     };
 
-    public calculatebirthdate = (age: number): string => {
-        const today = new Date();
-        const birthdate = new Date(today.getFullYear() - age, today.getMonth(), today.getDate());
-        return this.dateToString(birthdate);
-    };
-
     private capitalize = (value: string): string => {
         return value.charAt(0).toUpperCase() + value.slice(1);
     }

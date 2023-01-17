@@ -1,4 +1,4 @@
-import { PersonCard } from "../components/person-card.component";
+import { PersonCard } from "../templates/person-card.template";
 import { Person } from "../models/person.model";
 import Swal from "sweetalert2";
 import { IPerson } from "../interfaces/person.interface";

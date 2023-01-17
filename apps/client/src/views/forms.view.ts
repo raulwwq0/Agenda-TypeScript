@@ -1,6 +1,6 @@
 import { IPerson } from "../interfaces/person.interface";
 import { FormInputs } from "../types/form-inputs.type";
-import { Form } from "../components/form.component";
+import { Form } from "../templates/form.template";
 import Swal from "sweetalert2";
 
 type insertCallback = (formInputs: FormInputs) => void;

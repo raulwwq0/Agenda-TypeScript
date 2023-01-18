@@ -14,17 +14,22 @@ export class AgendaController {
         private readonly formsView: FormsView,
         private readonly formsService: FormsService,
     ) {
-        this.loader();
+        this.init();
         this.formsView.render();
         this.formsView.bindInsertButton(this.handlerInsertButton);
         this.formsView.bindUpdateButton(this.handlerUpdateButton);
     }
 
-    private loader = (): void => {
+    private init = (): void => {
         this.peopleService.loadPeople()
-            .then(() => this.peopleCardsView.renderCards(this.peopleService.people))
-            .then(() => this.peopleCardsView.bindDeleteButtons(this.handlerDeleteButton))
-            .then(() => this.peopleCardsView.bindEditButtons(this.handlerEditButton));
+            .then(() => this.loader())
+            .catch((error) => this.formsView.showErrors(error));
+    }
+
+    private loader = () => {
+        this.peopleCardsView.renderCards(this.peopleService.people);
+        this.peopleCardsView.bindDeleteButtons(this.handlerDeleteButton);
+        this.peopleCardsView.bindEditButtons(this.handlerEditButton);
     }
 
     private inputsToPerson = (formInputs: FormInputs, id: string = uuidv4()): IPerson => ({
@@ -55,12 +60,14 @@ export class AgendaController {
         const person = this.inputsToPerson(formInputs);
         this.peopleService.insert(person)
             .then(() => this.formsView.insertSuccessful(person))
-            .then(() => this.loader());
+            .then(() => this.loader())
+            .catch((error) => this.formsView.showErrors(error));
     }
 
     public handlerDeleteButton = (id: string): void => {
         this.peopleService.delete(id)
-            .then(() => this.loader());
+            .then(() => this.loader())
+            .catch((error) => this.formsView.showErrors(error));
     }
 
     public handlerEditButton = (person: IPerson): void => {
@@ -74,6 +81,7 @@ export class AgendaController {
         const person = this.inputsToPerson(formInputs, id);
         this.peopleService.update(person)
             .then(() => this.formsView.updateSuccessful(person))
-            .then(() => this.loader());
+            .then(() => this.loader())
+            .catch((error) => this.formsView.showErrors(error));
     }
 }

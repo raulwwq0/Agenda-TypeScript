@@ -14,24 +14,46 @@ export class PeopleService {
     }
 
     public loadPeople = async (): Promise<void> => {
-        const people = await this.httpService.get();
+        let people: Person[];
+        try {
+            people = await this.httpService.get();
+        }
+        catch {
+            this._people.clear();
+            throw new Error("Unable to load contacts");
+        }
+
         for (const person of people) {
             this._people.set(person.id, person);
         }
     }
 
-    public insert = async (person: IPerson): Promise<Response> => {
+    public insert = async (person: IPerson): Promise<void> => {
         const newPerson = new Person(person);
 
         if (this._people.has(newPerson.id)){
             newPerson.id = uuidv4();
         }
 
+        try {
+            await this.httpService.post(person)
+        }
+        catch {
+            this._people.delete(newPerson.id);
+            throw new Error("Unable to add the new contact");
+        }
+
         this._people.set(newPerson.id, newPerson);
-        return this.httpService.post(person);
     };
 
-    public update = async (person: IPerson): Promise<Response> => {
+    public update = async (person: IPerson): Promise<void> => {
+        try {
+            await this.httpService.put(person);
+        } 
+        catch {
+            throw new Error("Unable to update the contact");
+        }
+
         const personToUpdate = this._people.get(person.id);
 
         if (personToUpdate) {
@@ -40,14 +62,17 @@ export class PeopleService {
             personToUpdate.age = person.age;
             personToUpdate.birthdate = person.birthdate;
             personToUpdate.phones = person.phones;
-        }
-        
-        return this.httpService.put(person);
+        }        
     };
 
-    public delete = async (id: string): Promise<Response> => {
+    public delete = async (id: string): Promise<void> => {
+        try {
+            await this.httpService.delete(id);
+        } 
+        catch {
+            throw new Error("Unable to delete the contact");            
+        }
         this._people.delete(id);
-        return this.httpService.delete(id);
     }
 
 }

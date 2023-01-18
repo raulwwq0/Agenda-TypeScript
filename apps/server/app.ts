@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT;
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+  console.log(`Server is running at \x1b[35mhttp://localhost:${port}\x1b[0m`);
 });
 
 app.use((_, res, next) => {

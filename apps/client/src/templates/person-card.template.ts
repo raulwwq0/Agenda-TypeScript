@@ -5,7 +5,7 @@ export class PersonCard {
 
     public render = (): HTMLElement => {
         const card = document.createElement("section");
-        card.classList.add("card", "animate__animated","animate__fadeIn");
+        card.classList.add("card", "animate__animated","animate__fadeIn", "animate__delay-1s", "animate__faster");
         card.innerHTML = `
             <img src="${this.person.img}" alt="${this.person.name} ${this.person.surname} image">
             <h2 class="name">Name: ${this.person.name}</h2>

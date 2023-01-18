@@ -17,6 +17,7 @@ body {
     display: grid;
     font-family: Arial, Helvetica, sans-serif;
     grid-template-columns: 70vw 30vw;
+    overflow-x: hidden;
     position: relative;
 }
 
@@ -32,6 +33,12 @@ body {
     font-size: 1.2rem;
     padding: 0.5rem;
     text-align: center;
+}
+
+.button:hover {
+    filter: brightness(1.2);
+    scale: 1.2;
+    transition: all 0.3s;
 }
 
 main {
@@ -165,6 +172,10 @@ aside form .insert-button {
     font-size: 1.2rem;
     margin-top: 2rem;
     width: 100%;
+}
+
+aside form .insert-button:hover {
+    scale: 1.0;
 }
 
 aside form .update-buttons-wrapper {

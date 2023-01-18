@@ -15,6 +15,7 @@ export class Person implements IPerson {
         this._name = person.name;
         this._surname = person.surname;
         this._age = person.age;
+        this._birthdate = person.birthdate;
         this._phones = person.phones;
     }
 
@@ -72,5 +73,18 @@ export class Person implements IPerson {
 
     public set phones(phones: string[]) {
         this._phones = phones;
+    }
+
+    public toJSON = (): IPerson => {
+
+        return {
+            id: this.id,
+            img: this.img,
+            name: this.name,
+            surname: this.surname,
+            age: this.age,
+            birthdate: this.birthdate,
+            phones: this.phones
+        }
     }
 }

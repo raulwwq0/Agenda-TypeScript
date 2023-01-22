@@ -1,4 +1,5 @@
 import { FormInputs } from "../types/form-inputs.type";
+import { NonValidFormException } from "../exceptions/non-valid-form.exception";
 
 type Errors = {
     [key: string]: string;
@@ -16,7 +17,7 @@ export class FormsService {
 
     constructor() {}
 
-    public isValidForm = (formInputs: FormInputs): string => {
+    public isValidForm = (formInputs: FormInputs): void => {
         const errors: Errors = {
             name: this.isValidNameOrSurname(formInputs.name.value, "name"),
             surname: this.isValidNameOrSurname(formInputs.surname.value, "surname"),
@@ -26,9 +27,11 @@ export class FormsService {
         };
         const errorMessages = Object.values(errors).filter((error) => error !== "");
         if (errorMessages.length > 0) {
-            return errorMessages.join(" - ");
+            const messageFormated = errorMessages.reduce((list, error) => {
+                return `${list}<li>${error}</li>`
+            }, "");
+            throw new NonValidFormException(messageFormated);
         }
-        return "";
     };
 
     private isValidNameOrSurname = (value: string, type: string): string => {
@@ -44,13 +47,13 @@ export class FormsService {
     private isValidbirthdate = (date: string): string => {
 
         if (!date) {
-            return "birthdate is required";
+            return "Birthdate is required";
         }
         if (!this.expReg.birthdate.test(date)) {
-            return "birthdate is not valid. Format must be dd/mm/yyyy";
+            return "Birthdate is not valid. Format must be dd/mm/yyyy";
         }
         if (!this.isPastDate(this.stringToDate(date))) {
-            return "birthdate must be a past date";
+            return "Birthdate must be a past date";
         }
         return "";
     };

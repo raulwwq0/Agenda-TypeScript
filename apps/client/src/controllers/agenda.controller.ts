@@ -45,12 +45,14 @@ export class AgendaController {
     });   
     
     private hasErrors = (formInputs: FormInputs): boolean => {
-        const errorMessage = this.formsService.isValidForm(formInputs);
-        if (errorMessage) {
-            this.formsView.showErrors(errorMessage);
+        try {
+            this.formsService.isValidForm(formInputs);
+            return false;
+        }
+        catch (error) {
+            this.formsView.showErrors(error);
             return true;
         }
-        return false;
     }
 
     public handlerInsertButton = (formInputs: FormInputs): void => {

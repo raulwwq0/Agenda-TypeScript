@@ -12,17 +12,6 @@
       ]
     },
     {
-      "id": "56cf4048-f981-4ac0-95a9-652e8ce530ab",
-      "img": "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
-      "name": "Ivan",
-      "surname": "Aguilar",
-      "age": 17,
-      "birthdate": "28/12/2004",
-      "phones": [
-        "500500500"
-      ]
-    },
-    {
       "id": "64e2f303-2ad4-4a28-b66a-37f78251b7f2",
       "img": "https://www.w3schools.com/w3images/avatar2.png",
       "name": "John",

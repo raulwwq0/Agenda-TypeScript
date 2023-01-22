@@ -7,7 +7,7 @@
     "preview": "vite preview",
     "dev": "vite ./src",
     "prod": "npm run build && npm run preview",
-    "api": "json-server --watch ./src/db.json"
+    "api": "json-server --watch ./src/assets/mocks/db.json"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

@@ -21,6 +21,8 @@ export class FormsView {
 
     public render = (): void => {
         this.aside.innerHTML += formTemplate;
+        this.aside.classList.remove("hidden");
+        this.aside.classList.add("visible", "animate__animated", "animate__slideInRight");
         this.formInputs = {
             img: this.aside.querySelector("#image")!,
             name: this.aside.querySelector("#name")!,

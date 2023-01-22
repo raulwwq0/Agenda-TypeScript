@@ -14,18 +14,16 @@ export class PeopleService {
         return Array.from(this._people.values());
     }
 
-    public loadPeople = async (): Promise<void> => {
-        let people: Person[];
+    public loadPeople = async(): Promise<void> => {
         try {
-            people = await this.httpService.get();
+            const people = await this.httpService.get();
+            for (const person of people) {
+                this._people.set(person.id, person);
+            }
         }
         catch (error){
             this._people.clear();
             throw new ServiceTemporarilyUnavailableException(error.message)
-        }
-
-        for (const person of people) {
-            this._people.set(person.id, person);
         }
     }
 
@@ -37,43 +35,43 @@ export class PeopleService {
         }
 
         try {
+            this._people.set(newPerson.id, newPerson);
             await this.httpService.post(person)
         }
         catch (error){
             this._people.delete(newPerson.id);
             throw new ServiceTemporarilyUnavailableException(error.message)
         }
-
-        this._people.set(newPerson.id, newPerson);
     };
 
     public update = async (person: IPerson): Promise<void> => {
-        try {
-            await this.httpService.put(person);
-        } 
-        catch (error){
-            throw new ServiceTemporarilyUnavailableException(error.message)
-        }
-
         const personToUpdate = this._people.get(person.id);
-
-        if (personToUpdate) {
+        const personToUpdateBackup = new Person(personToUpdate);
+        try {  
             personToUpdate.name = person.name;
             personToUpdate.surname = person.surname;
             personToUpdate.age = person.age;
             personToUpdate.birthdate = person.birthdate;
             personToUpdate.phones = person.phones;
-        }        
+            await this.httpService.put(person);
+        } 
+        catch (error){
+            this._people.delete(person.id);
+            this._people.set(person.id, personToUpdateBackup);
+            throw new ServiceTemporarilyUnavailableException(error.message)
+        }      
     };
 
     public delete = async (id: string): Promise<void> => {
+        const personToDeleteBackup = this._people.get(id);
         try {
+            this._people.delete(id);
             await this.httpService.delete(id);
         } 
         catch (error){
+            this._people.set(id, personToDeleteBackup);
             throw new ServiceTemporarilyUnavailableException(error.message)
         }
-        this._people.delete(id);
     }
 
 }

@@ -45,14 +45,12 @@ export class PeopleService {
     };
 
     public update = async (person: IPerson): Promise<void> => {
-        const personToUpdate = this._people.get(person.id);
-        const personToUpdateBackup = new Person(personToUpdate);
-        try {  
-            personToUpdate.name = person.name;
-            personToUpdate.surname = person.surname;
-            personToUpdate.age = person.age;
-            personToUpdate.birthdate = person.birthdate;
-            personToUpdate.phones = person.phones;
+        const personToUpdateBackup = this._people.get(person.id);
+        const personToUpdate = new Person(person);
+        personToUpdate.id = person.id;
+        try {
+            this._people.delete(person.id);
+            this._people.set(person.id, personToUpdate);
             await this.httpService.put(person);
         } 
         catch (error){

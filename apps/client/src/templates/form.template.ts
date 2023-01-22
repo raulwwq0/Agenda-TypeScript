@@ -1,9 +1,5 @@
-export class Form {
-    constructor() {}
-
-    public render = (): HTMLFormElement => {
-        const form = document.createElement("form");
-        form.innerHTML = `
+export const formTemplate = `
+    <form>
         <input type="text" placeholder="Name" id="name"/>
         <input type="text" placeholder="Surname" id="surname"/>
         <input type="text" placeholder="Birthdate" id="birthdate">
@@ -14,7 +10,4 @@ export class Form {
             <span class="button update-button" id="updateButton">Update</span>
             <span class="button cancel-button" id="cancelButton"><i class="fa-solid fa-x"></i></span>
         </div>
-        `;
-        return form;
-    }
-}
+    </form>`;

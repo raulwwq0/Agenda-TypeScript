@@ -10,7 +10,7 @@ export class Person implements IPerson {
     private _phones: string[];
 
     constructor(person: IPerson) {
-        this._id = person.id;
+        this.id = person.id;
         this._img = person.img;
         this._name = person.name;
         this._surname = person.surname;
@@ -23,52 +23,53 @@ export class Person implements IPerson {
         return this._id;
     }
 
+    public set id(id: string) {
+        console.log(id);
+        this._id = id;
+    }
+
     public get img(): string {
         return this._img;
-    }
-
-    public get name(): string {
-        return this._name;
-    }
-
-    public get surname(): string {
-        return this._surname;
-    }
-
-    public get age(): number {
-        return this._age;
-    }
-
-    public get birthdate(): string {
-        return this._birthdate;
-    }
-
-    public get phones(): string[] {
-        return this._phones;
-    }
-
-    public set id(id: string) {
-        this._id = id;
     }
 
     public set img(img: string) {
         this._img = img;
     }
 
+    public get name(): string {
+        return this._name;
+    }
+
     public set name(name: string) {
         this._name = name;
+    }
+
+    public get surname(): string {
+        return this._surname;
     }
 
     public set surname(surname: string) {
         this._surname = surname;
     }
 
+    public get age(): number {
+        return this._age;
+    }
+
     public set age(age: number) {
         this._age = age;
     }
 
+    public get birthdate(): string {
+        return this._birthdate;
+    }
+
     public set birthdate(birthdate: string) {
         this._birthdate = birthdate;
+    }
+
+    public get phones(): string[] {
+        return this._phones;
     }
 
     public set phones(phones: string[]) {
@@ -76,7 +77,6 @@ export class Person implements IPerson {
     }
 
     public toJSON = (): IPerson => {
-
         return {
             id: this.id,
             img: this.img,

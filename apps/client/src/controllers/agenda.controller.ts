@@ -1,7 +1,6 @@
 import { PeopleService } from "../services/people.service";
 import { PeopleCardsView } from "../views/people-cards.view";
 import { FormsView } from "../views/forms.view";
-import { FormsService } from "../services/forms.service";
 import { IPerson } from "../interfaces/person.interface";
 import { FormInputs } from "../types/form-inputs.type";
 import { v4 as uuidv4 } from 'uuid';
@@ -12,7 +11,6 @@ export class AgendaController {
         private readonly peopleService: PeopleService,
         private readonly peopleCardsView: PeopleCardsView,
         private readonly formsView: FormsView,
-        private readonly formsService: FormsService,
     ) {
         this.init();
         this.formsView.render();
@@ -37,28 +35,14 @@ export class AgendaController {
         img: formInputs.img.value || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
         name: formInputs.name.value,
         surname: formInputs.surname.value,
-        age: this.formsService.calculateAge(this.formsService.stringToDate(formInputs.birthdate.value)),
+        age: this.calculateAge(this.stringToDate(formInputs.birthdate.value)),
         birthdate: formInputs.birthdate.value,
         phones: formInputs.phones.value.split(",")
                                        .map(phone => phone.trim())
                                        .filter(phone => phone !== ""),
-    });   
-    
-    private hasErrors = (formInputs: FormInputs): boolean => {
-        try {
-            this.formsService.isValidForm(formInputs);
-            return false;
-        }
-        catch (error) {
-            this.formsView.showErrors(error);
-            return true;
-        }
-    }
+    });
 
     public handlerInsertButton = (formInputs: FormInputs): void => {
-        if (this.hasErrors(formInputs)) {
-            return;
-        }
         const person = this.inputsToPerson(formInputs);
         this.peopleService.insert(person)
             .then(() => this.formsView.insertSuccessful(person))
@@ -77,13 +61,29 @@ export class AgendaController {
     }
 
     public handlerUpdateButton = (id:string, formInputs: FormInputs): void => {
-        if (this.hasErrors(formInputs)) {
-            return;
-        }
         const person = this.inputsToPerson(formInputs, id);
         this.peopleService.update(person)
             .then(() => this.formsView.updateSuccessful(person))
             .then(() => this.loader())
             .catch((error) => this.formsView.showErrors(error));
     }
+
+    private stringToDate = (date: string): Date => {
+        const dateParts = date.split("/");
+        const [day, month, year] = [parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2])];
+        return new Date(year, month, day);
+    };
+
+    private calculateAge = (birthdate: Date): number => {
+        const today = new Date();
+        const age = today.getFullYear() - birthdate.getFullYear();
+        const month = today.getMonth() - birthdate.getMonth();
+        if (
+            month < 0 ||
+            (month === 0 && today.getDate() < birthdate.getDate())
+        ) {
+            return age - 1;
+        }
+        return age;
+    };
 }

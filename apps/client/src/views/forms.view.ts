@@ -3,7 +3,7 @@ import { FormInputs } from "../types/form-inputs.type";
 import { Form } from "../templates/form.template";
 import Swal, { SweetAlertOptions } from "sweetalert2";
 import { ServiceTemporarilyUnavailableException } from "../exceptions/service-temporarily-unavailable.exception";
-import { NonValidFormException } from "../exceptions/non-valid-form.exception";
+import { NonValidInputException } from "../exceptions/non-valid-input.exception";
 
 type insertCallback = (formInputs: FormInputs) => void;
 type updateCallback = (id:string, formInputs: FormInputs) => void
@@ -101,7 +101,7 @@ export class FormsView {
         const messageConfig: SweetAlertOptions = {
             icon: "error",
             title: "Oops...",
-            html: "",
+            html: "Something went wrong!",
             confirmButtonText: "OK",
         };
         const actionsAfterError = {
@@ -112,14 +112,14 @@ export class FormsView {
         }
         switch (error.constructor) {
             case ServiceTemporarilyUnavailableException:
-                messageConfig.title = "503 Service Temporarily Unavailable"
+                messageConfig.title = "503 - Service Temporarily Unavailable"
                 messageConfig.html = error.message;
                 messageConfig.confirmButtonText = "Try again";
                 actionsAfterError.toExec = actionsAfterError.reload;
                 break;
-            case NonValidFormException:
-                messageConfig.title = "400 Invalid form";
-                messageConfig.html = `<ul>${error.message}</ul>`;
+            case NonValidInputException:
+                messageConfig.title = "400 - Invalid Input Field";
+                messageConfig.html = `${error.message}`;
                 break;
         }
 

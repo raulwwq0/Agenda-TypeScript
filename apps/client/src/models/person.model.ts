@@ -1,4 +1,6 @@
 import { IPerson } from "../interfaces/person.interface";
+import { regExp } from "../utils/regexp.utils";
+import { NonValidInputException } from "../exceptions/non-valid-input.exception";
 
 export class Person implements IPerson {
     private _id: string;
@@ -11,12 +13,12 @@ export class Person implements IPerson {
 
     constructor(person: IPerson) {
         this.id = person.id;
-        this._img = person.img;
-        this._name = person.name;
-        this._surname = person.surname;
-        this._age = person.age;
-        this._birthdate = person.birthdate;
-        this._phones = person.phones;
+        this.img = person.img;
+        this.name = person.name;
+        this.surname = person.surname;
+        this.age = person.age;
+        this.birthdate = person.birthdate;
+        this.phones = person.phones;
     }
 
     public get id(): string {
@@ -24,7 +26,6 @@ export class Person implements IPerson {
     }
 
     public set id(id: string) {
-        console.log(id);
         this._id = id;
     }
 
@@ -33,6 +34,9 @@ export class Person implements IPerson {
     }
 
     public set img(img: string) {
+        if (img && !regExp.img.test(img)) {
+            throw new NonValidInputException("Invalid image url");
+        }
         this._img = img;
     }
 
@@ -41,6 +45,12 @@ export class Person implements IPerson {
     }
 
     public set name(name: string) {
+        if (!name) {
+            throw new NonValidInputException("Name is required");
+        }
+        if (!regExp.name.test(name)) {
+            throw new NonValidInputException("Invalid name. Must have at least 3 character");
+        }
         this._name = name;
     }
 
@@ -49,6 +59,12 @@ export class Person implements IPerson {
     }
 
     public set surname(surname: string) {
+        if (!surname) {
+            throw new NonValidInputException("Surname is required");
+        }
+        if (!regExp.surname.test(surname)) {
+            throw new NonValidInputException("Invalid surname. Must have at least 3 character");
+        }
         this._surname = surname;
     }
 
@@ -65,6 +81,15 @@ export class Person implements IPerson {
     }
 
     public set birthdate(birthdate: string) {
+        if (!birthdate) {
+            throw new NonValidInputException("Birthdate is required");
+        }
+        if (!regExp.birthdate.test(birthdate)) {
+            throw new NonValidInputException("Invalid birthdate. Format must be dd/mm/yyyy");
+        }
+        if (!this.isPastDate(this.stringToDate(birthdate))) {
+            throw new NonValidInputException("Birthdate must be a past date");
+        }
         this._birthdate = birthdate;
     }
 
@@ -73,6 +98,11 @@ export class Person implements IPerson {
     }
 
     public set phones(phones: string[]) {
+        phones.find((phone) => {
+            if (!regExp.phone.test(phone)) {
+                throw new NonValidInputException(`Phone "${phone}" is not valid. Must be 9 digits`);
+            }
+        });
         this._phones = phones;
     }
 
@@ -84,7 +114,38 @@ export class Person implements IPerson {
             surname: this.surname,
             age: this.age,
             birthdate: this.birthdate,
-            phones: this.phones
+            phones: this.phones,
+        };
+    };
+
+    private isPastDate = (date: Date): boolean => {
+        const today = new Date();
+        if (date.getFullYear() < today.getFullYear()) {
+            return true;
         }
-    }
+        if (
+            date.getFullYear() === today.getFullYear() &&
+            date.getMonth() < today.getMonth()
+        ) {
+            return true;
+        }
+        if (
+            date.getFullYear() === today.getFullYear() &&
+            date.getMonth() === today.getMonth() &&
+            date.getDate() < today.getDate()
+        ) {
+            return true;
+        }
+        return false;
+    };
+
+    public stringToDate = (date: string): Date => {
+        const dateParts = date.split("/");
+        const [day, month, year] = [
+            parseInt(dateParts[0]),
+            parseInt(dateParts[1]) - 1,
+            parseInt(dateParts[2]),
+        ];
+        return new Date(year, month, day);
+    };
 }

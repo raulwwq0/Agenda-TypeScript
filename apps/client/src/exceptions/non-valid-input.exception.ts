@@ -1,4 +1,4 @@
-export class NonValidFormException extends Error {
+export class NonValidInputException extends Error {
     constructor(message: string) {
         super(message);
         this.name = 'NonValidFormException';

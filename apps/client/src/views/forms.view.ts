@@ -97,7 +97,6 @@ export class FormsView {
     }
 
     public showErrors = (error: Error): void => {
-        console.error(error);
         const messageConfig: SweetAlertOptions = {
             icon: "error",
             title: "Oops...",

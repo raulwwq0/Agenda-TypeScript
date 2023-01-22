@@ -13,21 +13,21 @@ export class AgendaController {
         private readonly formsView: FormsView,
     ) {
         this.init();
-        this.formsView.render();
-        this.formsView.bindInsertButton(this.handlerInsertButton);
-        this.formsView.bindUpdateButton(this.handlerUpdateButton);
     }
 
-    private init = (): void => {
-        this.peopleService.loadPeople()
-            .then(() => this.loader())
-            .catch((error) => this.formsView.showErrors(error));
-    }
-
-    private loader = () => {
-        this.peopleCardsView.renderCards(this.peopleService.people);
-        this.peopleCardsView.bindDeleteButtons(this.handlerDeleteButton);
-        this.peopleCardsView.bindEditButtons(this.handlerEditButton);
+    private init = async (): Promise<void> => {
+        try {
+            await this.peopleService.loadPeople();
+            this.peopleCardsView.renderCards(this.peopleService.people);
+            this.peopleCardsView.bindDeleteButtons(this.handlerDeleteButton);
+            this.peopleCardsView.bindEditButtons(this.handlerEditButton);
+            this.formsView.render();
+            this.formsView.bindInsertButton(this.handlerInsertButton);
+            this.formsView.bindUpdateButton(this.handlerUpdateButton);
+        }
+        catch (error) {
+            this.formsView.showErrors(error);
+        }
     }
 
     private inputsToPerson = (formInputs: FormInputs, id: string = uuidv4()): IPerson => ({
@@ -42,30 +42,45 @@ export class AgendaController {
                                        .filter(phone => phone !== ""),
     });
 
-    public handlerInsertButton = (formInputs: FormInputs): void => {
+    public handlerInsertButton = async (formInputs: FormInputs): Promise<void> => {
         const person = this.inputsToPerson(formInputs);
-        this.peopleService.insert(person)
-            .then(() => this.formsView.insertSuccessful(person))
-            .then(() => this.loader())
-            .catch((error) => this.formsView.showErrors(error));
+        try {
+            await this.peopleService.insert(person);
+            this.peopleCardsView.renderCard(person);
+            this.peopleCardsView.bindDeleteButton(person.id, this.handlerDeleteButton);
+            this.peopleCardsView.bindEditButton(person.id, this.handlerEditButton);
+            this.formsView.insertSuccessful(person);
+        }
+        catch (error) {
+            this.formsView.showErrors(error);
+        }
+
     }
 
-    public handlerDeleteButton = (id: string): void => {
-        this.peopleService.delete(id)
-            .then(() => this.loader())
-            .catch((error) => this.formsView.showErrors(error));
+    public handlerDeleteButton = async (id: string): Promise<void> => {
+        try {
+            await this.peopleService.delete(id);
+            this.peopleCardsView.deleteCard(id);
+        }
+        catch (error) {
+            this.formsView.showErrors(error);
+        }
     }
 
     public handlerEditButton = (person: IPerson): void => {
         this.formsView.loadPersonDataToUpdate(person);
     }
 
-    public handlerUpdateButton = (id:string, formInputs: FormInputs): void => {
+    public handlerUpdateButton = async (id:string, formInputs: FormInputs): Promise<void> => {
         const person = this.inputsToPerson(formInputs, id);
-        this.peopleService.update(person)
-            .then(() => this.formsView.updateSuccessful(person))
-            .then(() => this.loader())
-            .catch((error) => this.formsView.showErrors(error));
+        try {
+            await this.peopleService.update(person);
+            this.peopleCardsView.updateCard(person);
+            this.formsView.updateSuccessful(person);
+        }
+        catch (error) {
+            this.formsView.showErrors(error);
+        }
     }
 
     private stringToDate = (date: string): Date => {

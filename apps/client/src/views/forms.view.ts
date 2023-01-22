@@ -1,6 +1,6 @@
 import { IPerson } from "../interfaces/person.interface";
 import { FormInputs } from "../types/form-inputs.type";
-import { Form } from "../templates/form.template";
+import { formTemplate } from "../templates/form.template";
 import Swal, { SweetAlertOptions } from "sweetalert2";
 import { ServiceTemporarilyUnavailableException } from "../exceptions/service-temporarily-unavailable.exception";
 import { NonValidInputException } from "../exceptions/non-valid-input.exception";
@@ -11,7 +11,6 @@ type updateCallback = (id:string, formInputs: FormInputs) => void
 export class FormsView {
 
     private aside: HTMLElement = document.querySelector("aside")!;
-    private form: HTMLElement;
     private formInputs: FormInputs;
     private insertButton: HTMLElement;
     private updateButtonsWrapper: HTMLElement;
@@ -21,21 +20,19 @@ export class FormsView {
     constructor() {}
 
     public render = (): void => {
-        const form = new Form().render();
-        this.form = form;
+        this.aside.innerHTML += formTemplate;
         this.formInputs = {
-            img: this.form.querySelector("#image")!,
-            name: this.form.querySelector("#name")!,
-            surname: this.form.querySelector("#surname")!,
-            birthdate: this.form.querySelector("#birthdate")!,
-            phones: this.form.querySelector("#phones")!,
+            img: this.aside.querySelector("#image")!,
+            name: this.aside.querySelector("#name")!,
+            surname: this.aside.querySelector("#surname")!,
+            birthdate: this.aside.querySelector("#birthdate")!,
+            phones: this.aside.querySelector("#phones")!,
         }
-        this.insertButton = this.form.querySelector("#insertButton")!;
-        this.updateButtonsWrapper = this.form.querySelector("#updateButtonsWrapper")!;
-        this.updateButton = this.form.querySelector("#updateButton")!;
-        this.cancelButton = this.form.querySelector("#cancelButton")!;
+        this.insertButton = this.aside.querySelector("#insertButton")!;
+        this.updateButtonsWrapper = this.aside.querySelector("#updateButtonsWrapper")!;
+        this.updateButton = this.aside.querySelector("#updateButton")!;
+        this.cancelButton = this.aside.querySelector("#cancelButton")!;
         this.cancelButtonEvent();
-        this.aside.appendChild(form);
     }
 
     public clear = (): void => {
@@ -98,6 +95,7 @@ export class FormsView {
     }
 
     public showErrors = (error: Error): void => {
+        console.error(error);
         const messageConfig: SweetAlertOptions = {
             icon: "error",
             title: "Oops...",

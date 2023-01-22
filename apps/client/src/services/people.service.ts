@@ -3,6 +3,7 @@ import { Person } from "../models/person.model";
 import { PeopleMap } from "../types/map.type";
 import { HttpService } from "./http.service";
 import { v4 as uuidv4 } from 'uuid';
+import { ServiceTemporarilyUnavailableException } from "../exceptions/service-temporarily-unavailable.exception";
 
 export class PeopleService {
     private _people: PeopleMap = new Map();
@@ -18,9 +19,9 @@ export class PeopleService {
         try {
             people = await this.httpService.get();
         }
-        catch {
+        catch (error){
             this._people.clear();
-            throw new Error("Unable to load contacts");
+            throw new ServiceTemporarilyUnavailableException(error.message)
         }
 
         for (const person of people) {
@@ -38,9 +39,9 @@ export class PeopleService {
         try {
             await this.httpService.post(person)
         }
-        catch {
+        catch (error){
             this._people.delete(newPerson.id);
-            throw new Error("Unable to add the new contact");
+            throw new ServiceTemporarilyUnavailableException(error.message)
         }
 
         this._people.set(newPerson.id, newPerson);
@@ -50,8 +51,8 @@ export class PeopleService {
         try {
             await this.httpService.put(person);
         } 
-        catch {
-            throw new Error("Unable to update the contact");
+        catch (error){
+            throw new ServiceTemporarilyUnavailableException(error.message)
         }
 
         const personToUpdate = this._people.get(person.id);
@@ -69,8 +70,8 @@ export class PeopleService {
         try {
             await this.httpService.delete(id);
         } 
-        catch {
-            throw new Error("Unable to delete the contact");            
+        catch (error){
+            throw new ServiceTemporarilyUnavailableException(error.message)
         }
         this._people.delete(id);
     }

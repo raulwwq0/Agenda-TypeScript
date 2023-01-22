@@ -1,7 +1,8 @@
 import { IPerson } from "../interfaces/person.interface";
 import { FormInputs } from "../types/form-inputs.type";
 import { Form } from "../templates/form.template";
-import Swal from "sweetalert2";
+import Swal, { SweetAlertOptions } from "sweetalert2";
+import { ServiceTemporarilyUnavailableException } from "../exceptions/service-temporarily-unavailable.exception";
 
 type insertCallback = (formInputs: FormInputs) => void;
 type updateCallback = (id:string, formInputs: FormInputs) => void
@@ -95,11 +96,33 @@ export class FormsView {
         this.closeUpdateForm();
     }
 
-    public showErrors = (errorMessage: string): void => {
-        Swal.fire({
+    public showErrors = (error: Error): void => {
+        const messageConfig: SweetAlertOptions = {
             icon: "error",
-            title: "Error!",
-            text: errorMessage,
-        });
+            title: "Oops...",
+            text: "Something went wrong!",
+            confirmButtonText: "OK",
+        };
+        const actionsAfterError = {
+            reload: () => {
+                window.location.reload();
+            },
+            toExec: () => {},
+        }
+        switch (error.constructor) {
+            case ServiceTemporarilyUnavailableException:
+                messageConfig.title = "503 Service Temporarily Unavailable"
+                messageConfig.text = error.message;
+                messageConfig.confirmButtonText = "Try again";
+                actionsAfterError.toExec = actionsAfterError.reload;
+                break;
+        }
+
+        Swal.fire(messageConfig)
+            .then((result) => {
+                if (result.isConfirmed) {
+                    actionsAfterError.toExec();
+                };
+            });
     }
 }

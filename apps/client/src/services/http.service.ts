@@ -1,4 +1,5 @@
 import { IPerson } from "../interfaces/person.interface";
+import { ServiceTemporarilyUnavailableException } from "../exceptions/service-temporarily-unavailable.exception";
 
 export class HttpService {
     private API: string = import.meta.env.VITE_API_URL as string;
@@ -6,34 +7,53 @@ export class HttpService {
     constructor() {}
 
     public get = async () => {
-        const response = await fetch(this.API);
-        const people = await response.json();
-        return people;
+        try {
+            const response = await fetch(this.API);
+            return await response.json();
+        }
+        catch {
+            throw new ServiceTemporarilyUnavailableException("Can't connect to the server, please try again later");
+        }
     }
 
     public post = async (person: IPerson): Promise<Response> => {
-        return await fetch(this.API, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(person),
-        });
+        try {
+            return await fetch(this.API, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(person),
+            });
+        }
+        catch {
+            throw new ServiceTemporarilyUnavailableException("Can't connect to the server, please try again later");
+        }
     }
 
     public put = async (person: IPerson): Promise<Response> => {
-        return await fetch(`${this.API}/${person.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(person),
-        });
+        try {
+            return await fetch(`${this.API}/${person.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(person),
+            });
+        }
+        catch {
+            throw new ServiceTemporarilyUnavailableException("Can't connect to the server, please try again later");
+        }
     }
 
     public delete = async (id: string): Promise<Response> => {
-        return await fetch(`${this.API}/${id}`, {
-            method: "DELETE",
-        });
+        try {
+            return await fetch(`${this.API}/${id}`, {
+                method: "DELETE",
+            });
+        }
+        catch {
+            throw new ServiceTemporarilyUnavailableException("Can't connect to the server, please try again later");
+        }
     }
 }

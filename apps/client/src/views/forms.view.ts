@@ -16,8 +16,6 @@ export class FormsView {
     private updateButton: HTMLElement;
     private cancelButton: HTMLElement;
 
-    private errorIcons;
-
     constructor() {}
 
     public render = (): void => {
@@ -36,12 +34,6 @@ export class FormsView {
         this.cancelButton = this.form.querySelector("#cancelButton")!;
         this.cancelButtonEvent();
         this.aside.appendChild(form);
-        this.errorIcons = {
-            name: document.querySelector("#nameIcon")!,
-            surname: document.querySelector("#surnameIcon")!,
-            birthdate: document.querySelector("#birthdateIcon")!,
-            dni: document.querySelector("#dniIcon")!,
-        }
     }
 
     public clear = (): void => {

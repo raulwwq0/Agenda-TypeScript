@@ -192,3 +192,8 @@ aside form .update-buttons-wrapper .update-button {
 aside form .update-buttons-wrapper .cancel-button {
     background-color: red;
 }
+
+aside form .update-buttons-wrapper .cancel-button:hover,
+aside form .update-buttons-wrapper .update-button:hover {
+    scale: 1.0;
+}

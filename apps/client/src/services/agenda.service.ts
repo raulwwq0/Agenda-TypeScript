@@ -1,12 +1,12 @@
 import { IPerson } from "../interfaces/person.interface";
 import { Person } from "../models/person.model";
 import { PeopleMap } from "../types/map.type";
-import { HttpService } from "./http.service";
-import { StorageService } from "./storage.service";
+import { HttpService } from "../commons/http.service";
+import { StorageService } from "../commons/storage.service";
 import { v4 as uuidv4 } from 'uuid';
 import { ServiceTemporarilyUnavailableException } from "../exceptions/service-temporarily-unavailable.exception";
 
-export class PeopleService {
+export class AgendaService {
     private _people: PeopleMap = new Map();
 
     constructor(

@@ -1,4 +1,4 @@
-import { PeopleService } from "../services/people.service";
+import { AgendaService } from "../services/agenda.service";
 import { PeopleCardsView } from "../views/people-cards.view";
 import { FormsView } from "../views/forms.view";
 import { IPerson } from "../interfaces/person.interface";
@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class AgendaController {
 
     constructor(
-        private readonly peopleService: PeopleService,
+        private readonly peopleService: AgendaService,
         private readonly peopleCardsView: PeopleCardsView,
         private readonly formsView: FormsView,
     ) {

@@ -102,6 +102,7 @@ export class FormsView {
             title: "Oops...",
             html: "Something went wrong!",
             confirmButtonText: "OK",
+            showCloseButton: false,
         };
         const actionsAfterError = {
             reload: () => {
@@ -111,13 +112,14 @@ export class FormsView {
         }
         switch (error.constructor) {
             case ServiceTemporarilyUnavailableException:
-                messageConfig.title = "503 - Service Temporarily Unavailable"
-                messageConfig.html = error.message;
-                messageConfig.confirmButtonText = "Try again";
+                messageConfig.title = "Service Temporarily Unavailable"
+                messageConfig.html = `${error.message}. You can still use the app by closing this popup, but some features may not work properly.`;
+                messageConfig.confirmButtonText = "Try to connect again";
+                messageConfig.showCloseButton = true;
                 actionsAfterError.toExec = actionsAfterError.reload;
                 break;
             case NonValidInputException:
-                messageConfig.title = "400 - Invalid Input Field";
+                messageConfig.title = "Invalid Input Field";
                 messageConfig.html = `${error.message}`;
                 break;
         }

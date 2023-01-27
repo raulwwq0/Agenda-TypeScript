@@ -24,4 +24,4 @@ You need to create a `.env` file in each app:
 - Client: Place it inside `src` folder with the following variables:
     - *VITE_API_URL*: The base url of the server app. E.g. `http://localhost:<PORT_OF_SERVER_APP>`
 
-> **Tip**: If you want to use [json-server](https://www.npmjs.com/package/json-server) as a mock server with the file _db.json_, you can use `http://localhost:3000/people` as *VITE_API_URL* and run the corresponding npm script in another terminal inside the client folder.
+> **Tip**: If you want to use [json-server](https://www.npmjs.com/package/json-server) as a mock server with the file _db.json_, you can use `http://localhost:3000/contacts` as *VITE_API_URL* and run the corresponding npm script in another terminal inside the client folder.

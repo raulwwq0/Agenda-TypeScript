@@ -1,4 +1,4 @@
-import { IPerson } from "../interfaces/person.interface";
+import { IContact } from "../interfaces/contact.interface";
 import { ServiceTemporarilyUnavailableException } from "../exceptions/service-temporarily-unavailable.exception";
 
 export class HttpService {
@@ -16,14 +16,14 @@ export class HttpService {
         }
     }
 
-    public post = async (person: IPerson): Promise<Response> => {
+    public post = async (contact: IContact): Promise<Response> => {
         try {
             return await fetch(this.API, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(person),
+                body: JSON.stringify(contact),
             });
         }
         catch {
@@ -31,14 +31,14 @@ export class HttpService {
         }
     }
 
-    public put = async (person: IPerson): Promise<Response> => {
+    public put = async (contact: IContact): Promise<Response> => {
         try {
-            return await fetch(`${this.API}/${person.id}`, {
+            return await fetch(`${this.API}/${contact.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(person),
+                body: JSON.stringify(contact),
             });
         }
         catch {

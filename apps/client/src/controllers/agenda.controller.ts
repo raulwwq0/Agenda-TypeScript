@@ -1,15 +1,15 @@
 import { AgendaService } from "../services/agenda.service";
-import { PeopleCardsView } from "../views/people-cards.view";
+import { ContactCardsView } from "../views/contact-cards.view";
 import { FormsView } from "../views/forms.view";
-import { IPerson } from "../interfaces/person.interface";
+import { IContact } from "../interfaces/contact.interface";
 import { FormInputs } from "../types/form-inputs.type";
 import { v4 as uuidv4 } from 'uuid';
 
 export class AgendaController {
 
     constructor(
-        private readonly peopleService: AgendaService,
-        private readonly peopleCardsView: PeopleCardsView,
+        private readonly agendaService: AgendaService,
+        private readonly contactsCardsView: ContactCardsView,
         private readonly formsView: FormsView,
     ) {
         this.init();
@@ -17,10 +17,10 @@ export class AgendaController {
 
     private init = async (): Promise<void> => {
         try {
-            await this.peopleService.loadPeople();
-            this.peopleCardsView.renderCards(this.peopleService.people);
-            this.peopleCardsView.bindDeleteButtons(this.handlerDeleteButton);
-            this.peopleCardsView.bindEditButtons(this.handlerEditButton);
+            await this.agendaService.load();
+            this.contactsCardsView.renderCards(this.agendaService.contacts);
+            this.contactsCardsView.bindDeleteButtons(this.handlerDeleteButton);
+            this.contactsCardsView.bindEditButtons(this.handlerEditButton);
             this.formsView.render();
             this.formsView.bindInsertButton(this.handlerInsertButton);
             this.formsView.bindUpdateButton(this.handlerUpdateButton);
@@ -30,7 +30,7 @@ export class AgendaController {
         }
     }
 
-    private inputsToPerson = (formInputs: FormInputs, id: string = uuidv4()): IPerson => ({
+    private inputsToContact = (formInputs: FormInputs, id: string = uuidv4()): IContact => ({
         id: id,
         img: formInputs.img.value || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png",
         name: formInputs.name.value,
@@ -43,13 +43,13 @@ export class AgendaController {
     });
 
     public handlerInsertButton = async (formInputs: FormInputs): Promise<void> => {
-        const person = this.inputsToPerson(formInputs);
+        const contact = this.inputsToContact(formInputs);
         try {
-            await this.peopleService.insert(person);
-            this.peopleCardsView.renderCard(person);
-            this.peopleCardsView.bindDeleteButton(person.id, this.handlerDeleteButton);
-            this.peopleCardsView.bindEditButton(person.id, this.handlerEditButton);
-            this.formsView.insertSuccessful(person);
+            await this.agendaService.insert(contact);
+            this.contactsCardsView.renderCard(contact);
+            this.contactsCardsView.bindDeleteButton(contact.id, this.handlerDeleteButton);
+            this.contactsCardsView.bindEditButton(contact.id, this.handlerEditButton);
+            this.formsView.insertSuccessful(contact);
         }
         catch (error) {
             this.formsView.showErrors(error);
@@ -59,26 +59,26 @@ export class AgendaController {
 
     public handlerDeleteButton = async (id: string): Promise<void> => {
         try {
-            await this.peopleService.delete(id);
-            this.peopleCardsView.deleteCard(id);
+            await this.agendaService.delete(id);
+            this.contactsCardsView.deleteCard(id);
         }
         catch (error) {
             this.formsView.showErrors(error);
         }
     }
 
-    public handlerEditButton = (person: IPerson): void => {
-        this.formsView.loadPersonDataToUpdate(person);
+    public handlerEditButton = (contact: IContact): void => {
+        this.formsView.loadContactDataToUpdate(contact);
     }
 
     public handlerUpdateButton = async (id:string, formInputs: FormInputs): Promise<void> => {
-        const person = this.inputsToPerson(formInputs, id);
+        const contact = this.inputsToContact(formInputs, id);
         try {
-            await this.peopleService.update(person);
-            this.peopleCardsView.updateCard(person);
-            this.peopleCardsView.bindDeleteButton(person.id, this.handlerDeleteButton);
-            this.peopleCardsView.bindEditButton(person.id, this.handlerEditButton);
-            this.formsView.updateSuccessful(person);
+            await this.agendaService.update(contact);
+            this.contactsCardsView.updateCard(contact);
+            this.contactsCardsView.bindDeleteButton(contact.id, this.handlerDeleteButton);
+            this.contactsCardsView.bindEditButton(contact.id, this.handlerEditButton);
+            this.formsView.updateSuccessful(contact);
         }
         catch (error) {
             this.formsView.showErrors(error);

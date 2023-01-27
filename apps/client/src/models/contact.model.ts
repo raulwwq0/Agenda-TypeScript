@@ -1,8 +1,8 @@
-import { IPerson } from "../interfaces/person.interface";
+import { IContact } from "../interfaces/contact.interface";
 import { regExp } from "../utils/regexp.utils";
 import { NonValidInputException } from "../exceptions/non-valid-input.exception";
 
-export class Person implements IPerson {
+export class Contact implements IContact {
     private _id: string;
     private _img: string;
     private _name: string;
@@ -11,14 +11,14 @@ export class Person implements IPerson {
     private _birthdate: string;
     private _phones: string[];
 
-    constructor(person: IPerson) {
-        this.id = person.id;
-        this.img = person.img;
-        this.name = person.name;
-        this.surname = person.surname;
-        this.age = person.age;
-        this.birthdate = person.birthdate;
-        this.phones = person.phones;
+    constructor(contact: IContact) {
+        this.id = contact.id;
+        this.img = contact.img;
+        this.name = contact.name;
+        this.surname = contact.surname;
+        this.age = contact.age;
+        this.birthdate = contact.birthdate;
+        this.phones = contact.phones;
     }
 
     public get id(): string {
@@ -106,7 +106,7 @@ export class Person implements IPerson {
         this._phones = phones;
     }
 
-    public toJSON = (): IPerson => {
+    public toJSON = (): IContact => {
         return {
             id: this.id,
             img: this.img,
@@ -139,7 +139,7 @@ export class Person implements IPerson {
         return false;
     };
 
-    public stringToDate = (date: string): Date => {
+    private stringToDate = (date: string): Date => {
         const dateParts = date.split("/");
         const [day, month, year] = [
             parseInt(dateParts[0]),

@@ -1,4 +1,4 @@
-import { IPerson } from "../interfaces/person.interface";
+import { IContact } from "../interfaces/contact.interface";
 import { FormInputs } from "../types/form-inputs.type";
 import { formTemplate } from "../templates/form.template";
 import Swal, { SweetAlertOptions } from "sweetalert2";
@@ -51,7 +51,7 @@ export class FormsView {
         });
     }
 
-    public insertSuccessful = ({ name, surname }: IPerson): void => {
+    public insertSuccessful = ({ name, surname }: IContact): void => {
         this.clear();
         Swal.fire({
             icon: "success",
@@ -60,13 +60,13 @@ export class FormsView {
         });
     }
 
-    public loadPersonDataToUpdate = (person: IPerson): void => {
-        this.formInputs.img.value = person.img;
-        this.formInputs.name.value = person.name;
-        this.formInputs.surname.value = person.surname;
-        this.formInputs.birthdate.value = person.birthdate;
-        this.formInputs.phones.value = person.phones.join(", ");
-        this.updateButton.dataset.id = person.id;
+    public loadContactDataToUpdate = (contact: IContact): void => {
+        this.formInputs.img.value = contact.img;
+        this.formInputs.name.value = contact.name;
+        this.formInputs.surname.value = contact.surname;
+        this.formInputs.birthdate.value = contact.birthdate;
+        this.formInputs.phones.value = contact.phones.join(", ");
+        this.updateButton.dataset.id = contact.id;
         this.insertButton.classList.add("hidden");
         this.updateButtonsWrapper.classList.remove("hidden");
     }
@@ -87,7 +87,7 @@ export class FormsView {
         this.updateButtonsWrapper.classList.add("hidden");
     }
 
-    public updateSuccessful = ({ name, surname }: IPerson): void => {
+    public updateSuccessful = ({ name, surname }: IContact): void => {
         Swal.fire({
             icon: "success",
             title: "Success!",

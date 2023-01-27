@@ -1,34 +1,34 @@
-import { personCardTemplate } from "../templates/person-card.template";
-import { Person } from "../models/person.model";
+import { contactCardTemplate } from "../templates/contact-card.template";
+import { Contact } from "../models/contact.model";
 import Swal from "sweetalert2";
-import { IPerson } from "../interfaces/person.interface";
+import { IContact } from "../interfaces/contact.interface";
 
 type deleteCallback = (id: string) => void;
-type editCallback = (person: IPerson) => void;
+type editCallback = (contact: IContact) => void;
 
-export class PeopleCardsView {
+export class ContactCardsView {
     private cards: HTMLElement = document.querySelector("#cards")!;
 
     constructor() {}
 
-    public renderCards = (people: Person[]): void => {
+    public renderCards = (people: Contact[]): void => {
         this.cards.innerHTML = "";
-        for (const person of people) {
-            this.renderCard(person);
+        for (const contact of people) {
+            this.renderCard(contact);
         }
     };
 
-    public renderCard = (person: IPerson): HTMLElement => {
-        const card = new DOMParser().parseFromString(personCardTemplate(person), "text/html").body.firstChild as HTMLElement;
+    public renderCard = (contact: IContact): HTMLElement => {
+        const card = new DOMParser().parseFromString(contactCardTemplate(contact), "text/html").body.firstChild as HTMLElement;
         card.classList.add("animate__animated", "animate__jackInTheBox", "animate__faster");
         card.addEventListener("animationend", () => card.classList.remove("animate__animated", "animate__jackInTheBox", "animate__faster"));
         this.cards.appendChild(card);
         return card;
     };
 
-    public updateCard = (person: IPerson): void => {
-        const card: HTMLElement = document.querySelector(`.card[data-id="${person.id}"]`)!;
-        const newCard = new DOMParser().parseFromString(personCardTemplate(person), "text/html").body.firstChild as HTMLElement;
+    public updateCard = (contact: IContact): void => {
+        const card: HTMLElement = document.querySelector(`.card[data-id="${contact.id}"]`)!;
+        const newCard = new DOMParser().parseFromString(contactCardTemplate(contact), "text/html").body.firstChild as HTMLElement;
         newCard.classList.add("animate__animated", "animate__pulse", "animate__faster");
         newCard.addEventListener("animationend", () => newCard.classList.remove("animate__animated", "animate__pulse", "animate__faster"));
         this.cards.replaceChild(newCard, card);
@@ -55,7 +55,7 @@ export class PeopleCardsView {
     public bindEditButton = (id: string, callback: editCallback): void => {
         const editButton: HTMLElement = document.querySelector(`.editButton[data-id="${id}"]`)!;
         editButton.addEventListener("click", () => {
-            callback(JSON.parse(editButton.dataset.person!));
+            callback(JSON.parse(editButton.dataset.contact!));
         });
     };
 
@@ -63,7 +63,7 @@ export class PeopleCardsView {
         const editButtons: NodeListOf<HTMLElement> = document.querySelectorAll(".editButton");
         for (const button of editButtons) {
             button.addEventListener("click", () => {
-                callback(JSON.parse(button.dataset.person!));
+                callback(JSON.parse(button.dataset.contact!));
             });
         };
     };

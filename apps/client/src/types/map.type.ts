@@ -1,4 +1,4 @@
-import { Person } from "../models/person.model";
+import { Contact } from "../models/contact.model";
 
 type uuid = string;
-export type PeopleMap = Map<uuid, Person>;
+export type ContactsMap = Map<uuid, Contact>;

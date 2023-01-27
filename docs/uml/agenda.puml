@@ -35,12 +35,12 @@ package agenda {
     package services {
         class AgendaService {
               
-            - people: Map
+            - contacts: Map
             - httpService: HttpService
             - localStorageService: StorageService
-            + loadPeople(): Person[]
-            + insert(person: IPerson): Promise<void>
-            + update(person: IPerson): Promise<void>
+            + load(): Contact[]
+            + insert(contact: IContact): Promise<void>
+            + update(contact: IContact): Promise<void>
             + delete(id: string): Promise<void>
             - updateStorage(storageService: StorageService)
         }
@@ -52,27 +52,27 @@ package agenda {
     }   
     
     package views {
-        class PeopleCardsView{}
+        class ContactCardsView{}
         class FormsView{}
         class FormTemplate<<template>> {}
-        class PersonCardTemplate<<template>> {}
+        class ContactCardTemplate<<template>> {}
 
         FormsView <.. FormTemplate: "Includes"
-        FormsView <.. PersonCardTemplate: "Includes"
+        FormsView <.. ContactCardTemplate: "Includes"
     }
     package controllers {
         class HospitalController {
-            costructor(agendaService: AgendaService, FormsView: FormsView, peopleCardsView: PeopleCardsView)
+            costructor(agendaService: AgendaService, FormsView: FormsView, contactCardsView: ContactCardsView)
 
         }
 
         HospitalController o-- AgendaService
         HospitalController o-- FormsView 
-        HospitalController o-- PeopleCardsView
+        HospitalController o-- ContactCardsView
     }
     package models {       
 
-        class Person {
+        class Contact {
             - id: string
             - img: string
             - name: string
@@ -83,7 +83,7 @@ package agenda {
         }
 
 
-        AgendaService "1" o- "0..*" Person : people
+        AgendaService "1" o- "0..*" Contact : contacts
     }
     package exceptions {
        class NonValidInputException{}

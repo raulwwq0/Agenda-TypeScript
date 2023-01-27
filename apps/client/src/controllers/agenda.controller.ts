@@ -22,9 +22,7 @@ export class AgendaController {
             this.formsView.bindInsertButton(this.handlerInsertButton);
             this.formsView.bindUpdateButton(this.handlerUpdateButton);
             await this.agendaService.load()
-                .then(() => {
-                    this.renderCards();
-                });
+            this.renderCards();
         }
         catch (error) {
             this.formsView.showErrors(error);

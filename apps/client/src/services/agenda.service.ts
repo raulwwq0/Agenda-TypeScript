@@ -21,6 +21,10 @@ export class AgendaService {
     }
 
     private map = (contacts: IContact[]): void => {
+        if (this._contacts.size > 0) {
+            this._contacts.clear();
+        }
+        
         for (const contact of contacts) {
             this._contacts.set(contact.id, new Contact(contact));
         }

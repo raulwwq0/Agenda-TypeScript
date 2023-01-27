@@ -1,0 +1,102 @@
+@startuml
+
+package Database <<Database>> {
+
+}
+node Backend {
+    class Controllers{}
+}
+note right: Endpoints
+
+Backend --> Database
+
+package agenda {
+    
+
+    package commons {
+
+      class HttpService<T>{
+          + get<T>()
+          + post<T>()
+          + put<T>()
+          + delete<T>()
+      }
+
+      class StorageService<T> {
+          + get(key: string): string
+          + set(key: string, value: any): void
+          + remove(key: string): void
+      }
+
+      StorageService -[dashed]-> localStorage: "use"
+
+    }
+
+    package services {
+        class AgendaService {
+              
+            - people: Map
+            - httpService: HttpService
+            - localStorageService: StorageService
+            + loadPeople(): Person[]
+            + insert(person: IPerson): Promise<void>
+            + update(person: IPerson): Promise<void>
+            + delete(id: string): Promise<void>
+            - updateStorage(storageService: StorageService)
+        }
+
+        AgendaService o-- HttpService
+        AgendaService o-- StorageService
+
+  
+    }   
+    
+    package views {
+        class PeopleCardsView{}
+        class FormsView{}
+        class FormTemplate<<template>> {}
+        class PersonCardTemplate<<template>> {}
+
+        FormsView <.. FormTemplate: "Includes"
+        FormsView <.. PersonCardTemplate: "Includes"
+    }
+    package controllers {
+        class HospitalController {
+            costructor(agendaService: AgendaService, FormsView: FormsView, peopleCardsView: PeopleCardsView)
+
+        }
+
+        HospitalController o-- AgendaService
+        HospitalController o-- FormsView 
+        HospitalController o-- PeopleCardsView
+    }
+    package models {       
+
+        class Person {
+            - id: string
+            - img: string
+            - name: string
+            - surname: string
+            - age: string
+            - birthdate: string
+            - phones: string[]
+        }
+
+
+        AgendaService "1" o- "0..*" Person : people
+    }
+    package exceptions {
+       class NonValidInputException{}
+       class HttpException{}
+       class ServiceTemporarilyException{}
+    }
+
+}
+
+    package WebStorage <<Database>> {
+        
+    }
+
+    StorageService --> WebStorage
+    HttpService --> Backend
+@enduml

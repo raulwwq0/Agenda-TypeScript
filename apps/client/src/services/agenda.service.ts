@@ -12,25 +12,37 @@ export class AgendaService {
     constructor(
         private readonly httpService: HttpService,
         private readonly localStorageService: StorageService
-    ) {}
+    ) {
+        this.init();
+    }
 
     public get contacts(): Contact[] {
         return Array.from(this._contacts.values());
     }
 
-    public load = async(): Promise<void> => {
+    private map = (contacts: IContact[]): void => {
+        for (const contact of contacts) {
+            this._contacts.set(contact.id, new Contact(contact));
+        }
+    };
+
+    private init = (): void => {
+        const contacts: Contact[] = JSON.parse(this.localStorageService.get('contacts'));
+        if (contacts) {
+            this.map(contacts);
+        }
+    };
+
+    public load = async (): Promise<void> => {
         try {
-            const contacts: Contact[] = JSON.parse(this.localStorageService.get('contacts')) || await this.httpService.get();
-            for (const contact of contacts) {
-                this._contacts.set(contact.id, contact);
-            }
+            const contacts = await this.httpService.get();
             this.localStorageService.set('contacts', JSON.stringify(contacts));
-        }
-        catch (error){
+            this.map(contacts);
+        } catch (error) {
             this._contacts.clear();
-            throw new ServiceTemporarilyUnavailableException(error.message)
+            throw new ServiceTemporarilyUnavailableException(error.message);
         }
-    }
+    };
 
     public insert = async (contact: IContact): Promise<void> => {
         const newContact = new Contact(contact);

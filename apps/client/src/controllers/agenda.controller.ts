@@ -17,17 +17,24 @@ export class AgendaController {
 
     private init = async (): Promise<void> => {
         try {
-            await this.agendaService.load();
-            this.contactsCardsView.renderCards(this.agendaService.contacts);
-            this.contactsCardsView.bindDeleteButtons(this.handlerDeleteButton);
-            this.contactsCardsView.bindEditButtons(this.handlerEditButton);
+            this.renderCards();
             this.formsView.render();
             this.formsView.bindInsertButton(this.handlerInsertButton);
             this.formsView.bindUpdateButton(this.handlerUpdateButton);
+            await this.agendaService.load()
+                .then(() => {
+                    this.renderCards();
+                });
         }
         catch (error) {
             this.formsView.showErrors(error);
         }
+    }
+
+    private renderCards = (): void => {
+        this.contactsCardsView.renderCards(this.agendaService.contacts);
+        this.contactsCardsView.bindDeleteButtons(this.handlerDeleteButton);
+        this.contactsCardsView.bindEditButtons(this.handlerEditButton);
     }
 
     private inputsToContact = (formInputs: FormInputs, id: string = uuidv4()): IContact => ({

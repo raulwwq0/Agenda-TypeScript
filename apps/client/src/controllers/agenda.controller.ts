@@ -76,6 +76,8 @@ export class AgendaController {
         try {
             await this.peopleService.update(person);
             this.peopleCardsView.updateCard(person);
+            this.peopleCardsView.bindDeleteButton(person.id, this.handlerDeleteButton);
+            this.peopleCardsView.bindEditButton(person.id, this.handlerEditButton);
             this.formsView.updateSuccessful(person);
         }
         catch (error) {

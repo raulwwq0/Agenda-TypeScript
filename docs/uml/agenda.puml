@@ -11,30 +11,39 @@ note right: Endpoints
 Backend --> Database
 
 package agenda {
-    
+
 
     package commons {
 
-      class HttpService<T>{
-          + get<T>()
-          + post<T>()
-          + put<T>()
-          + delete<T>()
-      }
+        class HttpService<T>{
+            + get<T>()
+            + post<T>()
+            + put<T>()
+            + delete<T>()
+        }
 
-      class StorageService<T> {
-          + get(key: string): string
-          + set(key: string, value: any): void
-          + remove(key: string): void
-      }
+        class StorageService<T> {
+            + get(key: string): string
+            + set(key: string, value: any): void
+            + remove(key: string): void
+        }
 
-      StorageService -[dashed]-> localStorage: "use"
+        class RepositoryService {}
+
+        interface Storage {}
+
+        class LocalStorage implements Storage {}
+        class SessionStorage implements Storage {}
+
+        StorageService -[dashed]-> Storage: "use"
+        RepositoryService -[dashed]-> Dexie: "use"
+        Dexie -[dashed]-> indexedDB: "use"
 
     }
 
     package services {
         class AgendaService {
-              
+
             - contacts: Map
             - httpService: HttpService
             - localStorageService: StorageService
@@ -47,10 +56,10 @@ package agenda {
 
         AgendaService o-- HttpService
         AgendaService o-- StorageService
+        AgendaService o-- RepositoryService
+    }
 
-  
-    }   
-    
+
     package views {
         class ContactCardsView{}
         class FormsView{}
@@ -67,10 +76,11 @@ package agenda {
         }
 
         HospitalController o-- AgendaService
-        HospitalController o-- FormsView 
+        HospitalController o-- FormsView
         HospitalController o-- ContactCardsView
     }
-    package models {       
+    package models {
+
 
         class Contact {
             - id: string
@@ -86,17 +96,17 @@ package agenda {
         AgendaService "1" o- "0..*" Contact : contacts
     }
     package exceptions {
-       class NonValidInputException{}
-       class HttpException{}
-       class ServiceTemporarilyException{}
+        class NonValidInputException{}
+        class HttpException{}
+        class ServiceTemporarilyException{}
     }
 
 }
 
-    package WebStorage <<Database>> {
-        
-    }
+package WebStorage <<Database>> {
 
-    StorageService --> WebStorage
-    HttpService --> Backend
+}
+
+StorageService --> WebStorage
+HttpService --> Backend
 @enduml

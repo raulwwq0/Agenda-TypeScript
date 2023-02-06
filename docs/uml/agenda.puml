@@ -28,16 +28,12 @@ package agenda {
             + remove(key: string): void
         }
 
-        class RepositoryService {}
-
         interface Storage {}
 
         class LocalStorage implements Storage {}
         class SessionStorage implements Storage {}
 
         StorageService -[dashed]-> Storage: "use"
-        RepositoryService -[dashed]-> Dexie: "use"
-        Dexie -[dashed]-> indexedDB: "use"
 
     }
 
@@ -56,7 +52,6 @@ package agenda {
 
         AgendaService o-- HttpService
         AgendaService o-- StorageService
-        AgendaService o-- RepositoryService
     }
 
 
@@ -103,6 +98,22 @@ package agenda {
 
     package entities {
         class AgendaEntity<T>{}
+
+        AgendaEntity -[dashed]-> Dexie: "use"
+        Dexie -[dashed]-> indexedDB: "use"
+    }
+
+    package repositories {
+        class AgendaRepository{
+            + getAll(): Promise<any>
+            + loadAll(values: any[]): Promise<any>
+            + add(value: any): Promise<any>
+            + update(value: any): Promise<any>
+            + delete(id: string): Promise<any>
+        }
+
+        AgendaRepository -[dashed]-> AgendaEntity: "use"
+        AgendaService o-- AgendaRepository
     }
 
 }
@@ -111,6 +122,7 @@ package WebStorage <<Database>> {
 
 }
 
+AgendaRepository --> WebStorage
 StorageService --> WebStorage
 HttpService --> Backend
 @enduml

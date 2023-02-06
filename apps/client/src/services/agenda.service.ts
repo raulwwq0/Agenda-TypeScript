@@ -3,7 +3,7 @@ import { Contact } from "../models/contact.model";
 import { ContactsMap } from "../types/map.type";
 import { HttpService } from "../commons/http.service";
 import { StorageService } from "../commons/storage.service";
-import { RepositoryService } from "../commons/repository.service";
+import { AgendaRepository } from "../repositories/agenda.repository";
 import { v4 as uuidv4 } from "uuid";
 import { ServiceTemporarilyUnavailableException } from "../exceptions/service-temporarily-unavailable.exception";
 
@@ -13,7 +13,7 @@ export class AgendaService {
     constructor(
         private readonly httpService: HttpService,
         private readonly localStorageService: StorageService,
-        private readonly repositoryService: RepositoryService
+        private readonly repositoryService: AgendaRepository
     ) {
         this.init();
     }

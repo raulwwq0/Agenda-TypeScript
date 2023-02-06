@@ -11,6 +11,10 @@ npm run dev
 ## Client
 Built with [Vite](https://vitejs.dev/) and TypeScript.
 
+### UML Diagram
+
+![UML Diagram](./docs/uml/Agenda.png)
+
 ## Server
 Built with Node.js, TypeScript, [Express](https://expressjs.com/) and [MongoDB](https://www.mongodb.com/).
 

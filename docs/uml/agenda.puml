@@ -101,6 +101,10 @@ package agenda {
         class ServiceTemporarilyException{}
     }
 
+    package entities {
+        class AgendaEntity<T>{}
+    }
+
 }
 
 package WebStorage <<Database>> {

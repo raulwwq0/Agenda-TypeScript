@@ -3,7 +3,7 @@ import { IContact } from "../schemas/contact.schema";
 
 class ContactController {
     async findAll(): Promise<IContact[]> {
-        const contacts = await Contact.find();
+        const contacts = await Contact.find({}, { _id: 0, __v: 0});
         return contacts;
     }
 

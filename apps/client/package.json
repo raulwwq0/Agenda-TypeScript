@@ -19,6 +19,7 @@
   "dependencies": {
     "reset-css": "^5.0.1",
     "sweetalert2": "^11.6.15",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "dexie": "^3.2.3"
   }
 }

@@ -16,13 +16,13 @@ package agenda {
     package commons {
 
         class HttpService<T>{
-            + get<T>()
-            + post<T>()
-            + put<T>()
-            + delete<T>()
+            + get(value: T): Promise<Response>
+            + post(value: T): Promise<Response>
+            + put(id: string, value: T): Promise<Response>
+            + delete(id: string): Promise<Response>
         }
 
-        class StorageService<T> {
+        class StorageService {
             + get(key: string): string
             + set(key: string, value: any): void
             + remove(key: string): void
@@ -104,12 +104,12 @@ package agenda {
     }
 
     package repositories {
-        class AgendaRepository{
-            + getAll(): Promise<any>
-            + loadAll(values: any[]): Promise<any>
-            + add(value: any): Promise<any>
-            + update(value: any): Promise<any>
-            + delete(id: string): Promise<any>
+        class AgendaRepository<T>{
+            + getAll(): Promise<T[]>
+            + loadAll(values: T[]): Promise<Response>
+            + add(value: T): Promise<Response>
+            + update(id: string, value: T): Promise<Response>
+            + delete(id: string): Promise<Response>
         }
 
         AgendaRepository -[dashed]-> AgendaEntity: "use"

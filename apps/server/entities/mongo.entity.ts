@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export default class Connection {
+export default class MongoEntity {
     static connect() {
         if (mongoose.connection.readyState === 1) {
             console.log("Database already connected");

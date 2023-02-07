@@ -1,10 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import contactRouter from './routes/contact.routes';
-import Connection from './connection';
+import MongoEntity from './entities/mongo.entity';
 
 dotenv.config();
-Connection.connect();
+MongoEntity.connect();
 
 const app = express();
 const port = process.env.PORT;

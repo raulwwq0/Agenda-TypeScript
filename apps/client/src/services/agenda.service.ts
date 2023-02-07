@@ -13,7 +13,7 @@ export class AgendaService {
     constructor(
         private readonly httpService: HttpService,
         private readonly localStorageService: StorageService,
-        private readonly repositoryService: AgendaRepository
+        private readonly repositoryService: AgendaRepository<IContact>
     ) {
         this.init();
     }
@@ -78,13 +78,13 @@ export class AgendaService {
             this._contacts.delete(contact.id);
             this._contacts.set(contact.id, contactToUpdate);
             //this.updateStorage(this.localStorageService);
-            await this.repositoryService.update(contactToUpdate.toJSON());
+            await this.repositoryService.update(contact.id, contactToUpdate.toJSON());
             await this.httpService.put(contact);
         } catch (error) {
             this._contacts.delete(contact.id);
             this._contacts.set(contact.id, contactToUpdateBackup);
             //this.updateStorage(this.localStorageService);
-            await this.repositoryService.update(contactToUpdateBackup.toJSON());
+            await this.repositoryService.update(contact.id, contactToUpdateBackup.toJSON());
             throw new ServiceTemporarilyUnavailableException(error.message);
         }
     };
@@ -99,7 +99,7 @@ export class AgendaService {
         } catch (error) {
             this._contacts.set(id, contactToDeleteBackup);
             //this.updateStorage(this.localStorageService);
-            await this.repositoryService.add(contactToDeleteBackup.toJSON);
+            await this.repositoryService.add(contactToDeleteBackup.toJSON());
             throw new ServiceTemporarilyUnavailableException(error.message);
         }
     };

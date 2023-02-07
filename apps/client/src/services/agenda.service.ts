@@ -11,7 +11,7 @@ export class AgendaService {
     private _contacts: ContactsMap = new Map();
 
     constructor(
-        private readonly httpService: HttpService,
+        private readonly httpService: HttpService<IContact>,
         private readonly localStorageService: StorageService,
         private readonly repositoryService: AgendaRepository<IContact>
     ) {
@@ -79,7 +79,7 @@ export class AgendaService {
             this._contacts.set(contact.id, contactToUpdate);
             this.updateStorage(this.localStorageService);
             await this.repositoryService.update(contact.id, contactToUpdate.toJSON());
-            await this.httpService.put(contact);
+            await this.httpService.put(contact.id, contact);
         } catch (error) {
             this._contacts.delete(contact.id);
             this._contacts.set(contact.id, contactToUpdateBackup);

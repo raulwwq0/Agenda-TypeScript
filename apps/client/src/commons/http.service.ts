@@ -1,7 +1,6 @@
-import { IContact } from "../interfaces/contact.interface";
 import { ServiceTemporarilyUnavailableException } from "../exceptions/service-temporarily-unavailable.exception";
 
-export class HttpService {
+export class HttpService<T> {
     private API: string = import.meta.env.VITE_API_URL as string;
 
     constructor() {}
@@ -16,14 +15,14 @@ export class HttpService {
         }
     }
 
-    public post = async (contact: IContact): Promise<Response> => {
+    public post = async (value: T): Promise<Response> => {
         try {
             return await fetch(this.API, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(contact),
+                body: JSON.stringify(value),
             });
         }
         catch {
@@ -31,14 +30,14 @@ export class HttpService {
         }
     }
 
-    public put = async (contact: IContact): Promise<Response> => {
+    public put = async (id: string, value: T): Promise<Response> => {
         try {
-            return await fetch(`${this.API}/${contact.id}`, {
+            return await fetch(`${this.API}/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(contact),
+                body: JSON.stringify(value),
             });
         }
         catch {

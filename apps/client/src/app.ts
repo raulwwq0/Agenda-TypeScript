@@ -9,7 +9,7 @@ import { AgendaRepository } from "./repositories/agenda.repository";
 import { AgendaEntity } from "./entities/agenda.entity";
 import { IContact } from "./interfaces/contact.interface";
 
-const httpService = new HttpService();
+const httpService = new HttpService<IContact>();
 const localStorageService = new StorageService(localStorage);
 const repositoryService = new AgendaRepository<IContact>(new AgendaEntity("contacts"), "contacts");
 const agendaService = new AgendaService(httpService, localStorageService, repositoryService);

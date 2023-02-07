@@ -42,7 +42,7 @@ export class AgendaService {
         try {
             const contacts = await this.httpService.get();
             this.localStorageService.set("contacts", JSON.stringify(contacts));
-            await this.repositoryService.loadAll(contacts);
+            this.repositoryService.loadAll(contacts);
             this.map(contacts);
         } catch (error) {
             this._contacts.clear();
@@ -50,7 +50,7 @@ export class AgendaService {
         }
     };
 
-    public insert = async (contact: IContact): Promise<void> => {
+    public insert = (contact: IContact): Promise<Response> => {
         const newContact = new Contact(contact);
 
         if (this._contacts.has(newContact.id)) {
@@ -60,17 +60,17 @@ export class AgendaService {
         try {
             this._contacts.set(newContact.id, newContact);
             this.updateStorage(this.localStorageService);
-            await this.repositoryService.add(newContact.toJSON());
-            await this.httpService.post(contact);
+            this.repositoryService.add(newContact.toJSON());
+            return this.httpService.post(contact);
         } catch (error) {
             this._contacts.delete(newContact.id);
             this.updateStorage(this.localStorageService);
-            await this.repositoryService.delete(newContact.id);
+            this.repositoryService.delete(newContact.id);
             throw new ServiceTemporarilyUnavailableException(error.message);
         }
     };
 
-    public update = async (contact: IContact): Promise<void> => {
+    public update = (contact: IContact): Promise<Response> => {
         const contactToUpdateBackup = this._contacts.get(contact.id);
         const contactToUpdate = new Contact(contact);
         contactToUpdate.id = contact.id;
@@ -78,28 +78,28 @@ export class AgendaService {
             this._contacts.delete(contact.id);
             this._contacts.set(contact.id, contactToUpdate);
             this.updateStorage(this.localStorageService);
-            await this.repositoryService.update(contact.id, contactToUpdate.toJSON());
-            await this.httpService.put(contact.id, contact);
+            this.repositoryService.update(contact.id, contactToUpdate.toJSON());
+            return this.httpService.put(contact.id, contact);
         } catch (error) {
             this._contacts.delete(contact.id);
             this._contacts.set(contact.id, contactToUpdateBackup);
             this.updateStorage(this.localStorageService);
-            await this.repositoryService.update(contact.id, contactToUpdateBackup.toJSON());
+            this.repositoryService.update(contact.id, contactToUpdateBackup.toJSON());
             throw new ServiceTemporarilyUnavailableException(error.message);
         }
     };
 
-    public delete = async (id: string): Promise<void> => {
+    public delete = (id: string): Promise<Response> => {
         const contactToDeleteBackup = this._contacts.get(id);
         try {
             this._contacts.delete(id);
             this.updateStorage(this.localStorageService);
-            await this.repositoryService.delete(id);
-            await this.httpService.delete(id);
+            this.repositoryService.delete(id);
+            return this.httpService.delete(id);
         } catch (error) {
             this._contacts.set(id, contactToDeleteBackup);
             this.updateStorage(this.localStorageService);
-            await this.repositoryService.add(contactToDeleteBackup.toJSON());
+            this.repositoryService.add(contactToDeleteBackup.toJSON());
             throw new ServiceTemporarilyUnavailableException(error.message);
         }
     };

@@ -1,14 +1,5 @@
 @startuml Client
-
-package Database <<Database>> {
-
-}
-node Backend {
-    class Controllers{}
-}
-note right: Endpoints
-
-Backend --> Database
+allowmixing
 
 package agenda {
 
@@ -118,9 +109,15 @@ package agenda {
 
 }
 
-package WebStorage <<Database>> {
+database WebStorage
 
-}
+database Database
+
+node Backend
+
+note right: Endpoints
+
+Backend --> Database
 
 AgendaRepository --> WebStorage
 StorageService --> WebStorage

@@ -72,9 +72,7 @@ database agenda as agendaMongoDB {
     collections contacts
 }
 
-note bottom of agendaMongoDB
-    MongoDB
-end note
+note bottom: MongoDB
 
 node Frontend {
     class HttpService{}

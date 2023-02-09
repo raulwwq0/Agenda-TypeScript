@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import contactRouter from './routes/contact.routes';
-import MongoEntity from './entities/mongo.entity';
+import MongoEntity from './mongodb/entities/mongo.entity';
 
 dotenv.config();
 MongoEntity.connect();

@@ -1,4 +1,4 @@
-import Contact from "../models/contact.model";
+import Contact from "../mongodb/models/contact.model";
 import IContact from "../interfaces/contact.interface";
 
 class ContactController {

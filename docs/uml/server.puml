@@ -16,8 +16,8 @@ package agenda {
         interface IContact
     }
 
-    package routes {
-        class AgendaRoutes {
+    package routers {
+        class AgendaRouter {
             - router: Router
             - agendaController: AgendaController
             + get router(): Router
@@ -63,7 +63,7 @@ package agenda {
     }
 
     AgendaController o-- AgendaService
-    AgendaRoutes o-- AgendaController
+    AgendaRouter o-- AgendaController
     AgendaService o-- MongoService
     MongoService -[dashed]-> MongoEntity: "use"
     MongoService -[dashed]-> Contact: "use"
@@ -81,6 +81,6 @@ note bottom: MongoDB
 node Frontend {
     class HttpService{}
 
-    HttpService --> AgendaRoutes
+    HttpService --> AgendaRouter
 }
 @enduml

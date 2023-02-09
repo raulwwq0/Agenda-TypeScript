@@ -1,17 +1,17 @@
 import IContact from "../interfaces/contact.interface";
 import Contact from "../mongodb/models/contact.model";
-import { AgendaService } from "../services/agenda.service";
+import { MongoService } from "../mongodb/services/mongo.service";
 
-export class AgendaController {
-    constructor(private readonly agendaService: AgendaService) {}
+export class AgendaService {
+    constructor(private readonly mongoService: MongoService<IContact>) {}
 
     public findAll(): Promise<IContact[]> {
-        return this.agendaService.findAll();
+        return this.mongoService.findAll();
     }
 
     public save(contact: IContact): Promise<IContact> {
         const newContact = new Contact(contact);
-        return this.agendaService.save(newContact);
+        return this.mongoService.save(newContact);
     }
 
     public async delete(id: string): Promise<void> {

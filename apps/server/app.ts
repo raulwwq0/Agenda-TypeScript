@@ -2,10 +2,11 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { AgendaRouter } from './routes/agenda.routes';
 import { AgendaController } from './controllers/agenda.controller';
-import { MongoService } from './services/mongo.service';
+import { MongoService } from './mongodb/services/mongo.service';
 import { MongoEntity } from './mongodb/entities/mongo.entity';
 import IContact from './interfaces/contact.interface';
 import Contact from './mongodb/models/contact.model';
+import { AgendaService } from './services/agenda.service';
 
 dotenv.config();
 
@@ -28,7 +29,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const mongoEntity = new MongoEntity();
 const mongoService = new MongoService<IContact>(mongoEntity, Contact);
-const agendaController = new AgendaController(mongoService);
+const agendaService = new AgendaService(mongoService);
+const agendaController = new AgendaController(agendaService);
 const agendaRouter = new AgendaRouter(agendaController);
 
 app.use('/', agendaRouter.router);

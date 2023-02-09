@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { MongoEntity } from "../mongodb/entities/mongo.entity";
+import { MongoEntity } from "../entities/mongo.entity";
 
 export class MongoService<Interface> {
     constructor(private readonly mongoEntity: MongoEntity, 

@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { AgendaRouter } from './routes/agenda.routes';
+import { AgendaRoutes } from './routes/agenda.routes';
 import { AgendaController } from './controllers/agenda.controller';
 import { MongoService } from './mongodb/services/mongo.service';
 import { MongoEntity } from './mongodb/entities/mongo.entity';
@@ -31,8 +31,8 @@ const mongoEntity = new MongoEntity();
 const mongoService = new MongoService<IContact>(mongoEntity, Contact);
 const agendaService = new AgendaService(mongoService);
 const agendaController = new AgendaController(agendaService);
-const agendaRouter = new AgendaRouter(agendaController);
+const agendaRoutes = new AgendaRoutes(agendaController);
 
-app.use('/', agendaRouter.router);
-app.use('/contacts', agendaRouter.router);
+app.use('/', agendaRoutes.router);
+app.use('/contacts', agendaRoutes.router);
 

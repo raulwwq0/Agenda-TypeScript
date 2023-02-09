@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { AgendaRouter } from './routes/agenda.routes';
-import { AgendaController } from './controllers/contact.controller';
+import { AgendaController } from './controllers/agenda.controller';
 import { MongoService } from './services/mongo.service';
 import { MongoEntity } from './mongodb/entities/mongo.entity';
 import IContact from './interfaces/contact.interface';

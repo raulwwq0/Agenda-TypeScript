@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { AgendaController } from "../controllers/contact.controller";
+import { AgendaController } from "../controllers/agenda.controller";
 
 export class AgendaRouter {
     private readonly _router: Router = Router();

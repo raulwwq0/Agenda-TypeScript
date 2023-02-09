@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { AgendaController } from "../controllers/agenda.controller";
 
-export class AgendaRoutes {
+export class AgendaRouter {
     private readonly _router: Router = Router();
 
     public get router(): Router {

@@ -1,27 +1,26 @@
-import Contact from "../mongodb/models/contact.model";
 import IContact from "../interfaces/contact.interface";
+import Contact from "../mongodb/models/contact.model";
+import { MongoService } from "../services/mongo.service";
 
-class ContactController {
-    async findAll(): Promise<IContact[]> {
-        const contacts = await Contact.find({}, { _id: 0, __v: 0});
-        return contacts;
+export class AgendaController {
+    constructor(private readonly mongoService: MongoService<IContact>) {}
+
+    public findAll(): Promise<IContact[]> {
+        return this.mongoService.findAll();
     }
 
-    async save(contact: IContact): Promise<IContact> {
+    public save(contact: IContact): Promise<IContact> {
         const newContact = new Contact(contact);
-        await newContact.save();
-        return newContact;
+        return this.mongoService.save(newContact);
     }
 
-    async delete(id: string): Promise<void> {
+    public async delete(id: string): Promise<void> {
         await Contact.findOneAndDelete({ id });
     }
 
-    async update(contact: IContact): Promise<IContact> {
+    public async update(contact: IContact): Promise<IContact> {
         const updatedContact = await Contact.findOneAndUpdate({ id: contact.id }, contact);
         return updatedContact!;
     }
 
 }
-
-export default new ContactController();

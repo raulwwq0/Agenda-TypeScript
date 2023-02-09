@@ -1,10 +1,13 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import contactRouter from './routes/contact.routes';
-import MongoEntity from './mongodb/entities/mongo.entity';
+import { AgendaRouter } from './routes/agenda.routes';
+import { AgendaController } from './controllers/contact.controller';
+import { MongoService } from './services/mongo.service';
+import { MongoEntity } from './mongodb/entities/mongo.entity';
+import IContact from './interfaces/contact.interface';
+import Contact from './mongodb/models/contact.model';
 
 dotenv.config();
-MongoEntity.connect();
 
 const app = express();
 const port = process.env.PORT;
@@ -23,6 +26,11 @@ app.use((_, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', contactRouter);
-app.use('/contacts', contactRouter);
+const mongoEntity = new MongoEntity();
+const mongoService = new MongoService<IContact>(mongoEntity, Contact);
+const agendaController = new AgendaController(mongoService);
+const agendaRouter = new AgendaRouter(agendaController);
+
+app.use('/', agendaRouter.router);
+app.use('/contacts', agendaRouter.router);
 

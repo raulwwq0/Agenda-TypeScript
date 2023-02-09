@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 
-export default class MongoEntity {
-    static connect() {
+export class MongoEntity {
+    constructor() {}
+
+    public connect() {
         if (mongoose.connection.readyState === 1) {
             console.log("Database already connected");
             return;
@@ -15,7 +17,7 @@ export default class MongoEntity {
             .catch((error) => console.log(error));
     }
 
-    static disconnect() {
+    public disconnect() {
         mongoose.connection
             .close()
             .then(() => console.log("Database disconnected"))

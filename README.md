@@ -18,6 +18,10 @@ Built with [Vite](https://vitejs.dev/) and TypeScript.
 ## Server
 Built with Node.js, TypeScript, [Express](https://expressjs.com/) and [MongoDB](https://www.mongodb.com/).
 
+### UML Diagram
+
+![UML Diagram](./docs/uml/Server.png)
+
 ## Environment Variables
 You need to create a `.env` file in each app:
 

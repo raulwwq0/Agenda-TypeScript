@@ -1,0 +1,84 @@
+@startuml Server
+allowmixing
+
+package agenda {
+    package controllers {
+        class AgendaController {
+            - agendaService: AgendaService
+            + findAll(): Promise<IContact[]>
+            + save(contact: IContact): Promise<IContact>
+            + delete(id: string): Promise<void>
+            + update(contact: IContact): Promise<IContact>
+        }
+    }
+
+    package interfaces {
+        interface IContact
+    }
+
+    package routes {
+        class AgendaRoutes
+    }
+
+    package services {
+        class AgendaService {
+            - mongoService: MongoService<IContact>
+            + findAll(): Promise<IContact[]>
+            + save(contact: IContact): Promise<IContact>
+            + delete(id: string): Promise<void>
+            + update(contact: IContact): Promise<IContact>
+        }
+    }
+
+    package mongodb {
+        package entities {
+            class MongoEntity {
+                + connect(): void
+                + disconnect(): void
+            }
+        }
+
+        package models {
+            file Contact
+        }
+
+        package schemas {
+            file ContactSchema
+        }
+
+        package services as MongoServices {
+            class MongoService<Interface> {
+                - mongoEntity: MongoEntity
+                - model: Model<Interface>
+                + findAll(): Promise<Interface[]>
+                + save(contact: Interface): Promise<Interface>
+                + delete(id: string): Promise<void>
+                + update(id:string, contact: Interface): Promise<Interface>
+            }
+        }
+    }
+
+    AgendaController o-- AgendaService
+    AgendaRoutes o-- AgendaController
+    AgendaService o-- MongoService
+    MongoService -[dashed]-> MongoEntity: "use"
+    MongoService -[dashed]-> Contact: "use"
+    Contact *-- ContactSchema
+    ContactSchema -[dashed]-> IContact: "use"
+    Contact --> agendaMongoDB
+}
+
+database agenda as agendaMongoDB {
+    collections contacts
+}
+
+note bottom of agendaMongoDB
+    MongoDB
+end note
+
+node Frontend {
+    class HttpService{}
+
+    HttpService --> AgendaRoutes
+}
+@enduml

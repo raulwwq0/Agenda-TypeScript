@@ -1,14 +1,5 @@
 import { Schema } from 'mongoose';
-
-export interface IContact {
-    id: string,
-    img: string,
-    name: string,
-    surname: string,
-    age: number,
-    birthdate: string,
-    phones: string[]
-}
+import IContact from '../interfaces/contact.interface';
 
 const ContactSchema = new Schema<IContact>({
     id: { type: String, required: true },

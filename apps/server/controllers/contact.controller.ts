@@ -1,5 +1,5 @@
 import Contact from "../models/contact.model";
-import { IContact } from "../schemas/contact.schema";
+import IContact from "../interfaces/contact.interface";
 
 class ContactController {
     async findAll(): Promise<IContact[]> {

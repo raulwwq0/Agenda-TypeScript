@@ -13,7 +13,7 @@ Built with [Vite](https://vitejs.dev/) and TypeScript.
 
 ### UML Diagram
 
-![UML Diagram](./docs/uml/Agenda.png)
+![UML Diagram](./docs/uml/Client.png)
 
 ## Server
 Built with Node.js, TypeScript, [Express](https://expressjs.com/) and [MongoDB](https://www.mongodb.com/).

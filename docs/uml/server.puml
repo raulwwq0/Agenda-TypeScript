@@ -17,7 +17,11 @@ package agenda {
     }
 
     package routes {
-        class AgendaRoutes
+        class AgendaRoutes {
+            - router: Router
+            - agendaController: AgendaController
+            + get router(): Router
+        }
     }
 
     package services {

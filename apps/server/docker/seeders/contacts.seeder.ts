@@ -36,24 +36,23 @@ async function seedContacts() {
         mongoEntity.connect();
         await mongoose.connection.collection("contacts").deleteMany({});
         console.log("Generating contacts...");
-        const contacts = [...Array(numberOfContacts)].reduce((contacts, _) => {
+        const contacts = [...Array(numberOfContacts)].map(() => {
+            const name = faker.name.firstName();
+            const surname = faker.name.lastName();
             const birthdate = faker.date.birthdate();
-            return [
-                ...contacts,
-                {
-                    id: faker.datatype.uuid(),
-                    name: faker.name.firstName(),
-                    surname: faker.name.lastName(),
-                    age: calculateAge(birthdate),
-                    birthdate: dateFormatter(birthdate),
-                    phones: [
-                        faker.phone.number('#########'),
-                        faker.phone.number('#########'),
-                    ],
-                    img: faker.internet.avatar(),
-                },
-            ];
-        }, [] as any[]);
+            return {
+                id: faker.datatype.uuid(),
+                name: name.length > 3 ? name : "John",
+                surname: surname.length > 3 ? surname : "Doe",
+                age: calculateAge(birthdate),
+                birthdate: dateFormatter(birthdate),
+                phones: [
+                    faker.phone.number('#########'),
+                    faker.phone.number('#########'),
+                ],
+                img: faker.internet.avatar(),
+            }
+        });
         console.log("Seeding contacts...");
         await mongoose.connection.collection("contacts").insertMany(contacts);
         console.log("Contacts seeded");

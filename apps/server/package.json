@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "main": "app.ts",
   "scripts": {
-    "dev": "nodemon app.ts",
-    "seed:contacts": "ts-node ./data/seeders/contacts.seeder.ts"
+    "dev": "npm run docker:up; npm run seed:contacts 20; nodemon app.ts",
+    "docker:up": "docker compose up -d --build",
+    "seed:contacts": "ts-node ./docker/seeders/contacts.seeder.ts"
   },
   "author": "Raúl Aguilar",
   "license": "ISC",

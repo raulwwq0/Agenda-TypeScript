@@ -5,7 +5,6 @@ import { MongoEntity } from "../../mongodb/entities/mongo.entity";
 
 dotenv.config();
 
-// read first input from the command line
 const numberOfContacts = parseInt(process.argv[2]) || 10;
 
 function dateFormatter(date: Date) {

@@ -16,4 +16,4 @@ const agendaService = new AgendaService(httpService, localStorageService, reposi
 const contactCardsView = new ContactCardsView();
 const formsView = new FormsView();
 
-new AgendaController(agendaService, contactCardsView, formsView);
+const agendaController = new AgendaController(agendaService, contactCardsView, formsView);

@@ -6,7 +6,7 @@ export class AgendaRepository<T> {
     }
 
     public loadAll(values: T[]): Promise<Response> {
-        return this.db[this.store].count().then((count: Number) => {
+        return this.db[this.store].count().then((count: number) => {
             if (count === 0) {
                 this.db[this.store].bulkAdd(values);
             }

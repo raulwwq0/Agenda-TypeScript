@@ -14,13 +14,15 @@ export class AgendaController {
         return this.agendaService.save(newContact);
     }
 
-    public async delete(id: string): Promise<void> {
-        await Contact.findOneAndDelete({ id });
+    public delete(id: string): Promise<void> {
+        return Contact.findOneAndDelete({ id })
+            .exec()
+            .then(() => {});
     }
 
-    public async update(contact: IContact): Promise<IContact> {
-        const updatedContact = await Contact.findOneAndUpdate({ id: contact.id }, contact);
-        return updatedContact!;
+    public update(contact: IContact): Promise<IContact> {
+        return Contact.findOneAndUpdate({ id: contact.id }, contact)
+            .exec()
+            .then(() => contact);
     }
-
 }

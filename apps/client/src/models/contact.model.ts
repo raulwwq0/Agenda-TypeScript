@@ -49,7 +49,9 @@ export class Contact implements IContact {
             throw new NonValidInputException("Name is required");
         }
         if (!regExp.name.test(name)) {
-            throw new NonValidInputException("Invalid name. Must have at least 3 character");
+            throw new NonValidInputException(
+                "Invalid name. Must have at least 3 character"
+            );
         }
         this._name = name;
     }
@@ -63,7 +65,9 @@ export class Contact implements IContact {
             throw new NonValidInputException("Surname is required");
         }
         if (!regExp.surname.test(surname)) {
-            throw new NonValidInputException("Invalid surname. Must have at least 3 character");
+            throw new NonValidInputException(
+                "Invalid surname. Must have at least 3 character"
+            );
         }
         this._surname = surname;
     }
@@ -85,7 +89,9 @@ export class Contact implements IContact {
             throw new NonValidInputException("Birthdate is required");
         }
         if (!regExp.birthdate.test(birthdate)) {
-            throw new NonValidInputException("Invalid birthdate. Format must be dd/mm/yyyy");
+            throw new NonValidInputException(
+                "Invalid birthdate. Format must be dd/mm/yyyy"
+            );
         }
         if (!this.isPastDate(this.stringToDate(birthdate))) {
             throw new NonValidInputException("Birthdate must be a past date");
@@ -98,12 +104,14 @@ export class Contact implements IContact {
     }
 
     public set phones(phones: string[]) {
-        phones.find((phone) => {
+        this._phones = phones.filter((phone) => {
             if (!regExp.phone.test(phone)) {
-                throw new NonValidInputException(`Phone "${phone}" is not valid. Must be 9 digits`);
+                throw new NonValidInputException(
+                    "Invalid phone number. Must have 9 digits"
+                );
             }
+            return true;
         });
-        this._phones = phones;
     }
 
     public toJSON = (): IContact => {

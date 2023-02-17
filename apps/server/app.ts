@@ -17,6 +17,8 @@ app.listen(port, () => {
   console.log(`Server is running at \x1b[35mhttp://localhost:${port}\x1b[0m`);
 });
 
+app.disable('x-powered-by');
+
 app.use((_, res, next) => {
   res.header('Access-Control-Allow-Origin', process.env.CLIENT_URL);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');

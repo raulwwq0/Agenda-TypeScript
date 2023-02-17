@@ -48,14 +48,14 @@ export class ContactCardsView {
     public bindDeleteButtons = (callback: deleteCallback): void => {
         const deleteButtons: NodeListOf<HTMLElement> = document.querySelectorAll(".deleteButton");
         for (const button of deleteButtons) {
-            button.addEventListener("click", () => this.deleteSwal(callback, button.dataset.id!));
+            button.addEventListener("click", () => this.deleteSwal(callback, button.dataset.id));
         };
     };
 
     public bindEditButton = (id: string, callback: editCallback): void => {
         const editButton: HTMLElement = document.querySelector(`.editButton[data-id="${id}"]`)!;
         editButton.addEventListener("click", () => {
-            callback(JSON.parse(editButton.dataset.contact!));
+            callback(JSON.parse(editButton.dataset.contact));
         });
     };
 
@@ -63,7 +63,7 @@ export class ContactCardsView {
         const editButtons: NodeListOf<HTMLElement> = document.querySelectorAll(".editButton");
         for (const button of editButtons) {
             button.addEventListener("click", () => {
-                callback(JSON.parse(button.dataset.contact!));
+                callback(JSON.parse(button.dataset.contact));
             });
         };
     };

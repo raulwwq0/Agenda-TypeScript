@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
-import { MongoEntity } from "../../mongodb/entities/mongo.entity";
+import { MongoEntity } from "../mongodb/entities/mongo.entity";
 
 dotenv.config();
 

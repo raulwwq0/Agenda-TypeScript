@@ -34,3 +34,10 @@ yarn-error.log*
 # turbo
 .turbo
 apps/server/docker/db
+
+# sonar
+.scannerwork
+sonar-project.properties
+
+#docker
+docker

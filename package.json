@@ -8,9 +8,11 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
+    "dev": "npm run docker:up && turbo run dev --parallel",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "docker:up": "./prepare-volumes.sh && docker compose up -d --build",
+    "test:sonar": "sonar-scanner"
   },
   "devDependencies": {
     "prettier": "latest",
